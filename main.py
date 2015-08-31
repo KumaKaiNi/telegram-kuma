@@ -102,7 +102,6 @@ def send_say (m):
    print('[MSG]', out)
       
 
-
 # Adds two numbers or makes jokes.
 @bot.message_handler(commands=['add'])
 def add_num (m):
