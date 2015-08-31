@@ -73,6 +73,7 @@ def send_welcome (m):
       + "\n"
       + "Just as a warning, there is a 1% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi")
 
+
 # For Andrew.
 @bot.message_handler(commands=['mgsv'])
 def send_welcome (m):   
