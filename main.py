@@ -29,6 +29,9 @@ def get_boats():
       ships.append({'pid': pid, 'title': title, 'url': url})
       pid += 1
    print("[LOG] Ships populated!")
+
+# Initializes boats!
+get_boats()
    
 
 # Other functions
@@ -47,9 +50,6 @@ def to_regex(words):
    regex = regex[:-1]
    regex += ')(()|( ).*)$'
    return regex
-
-# Initializes boats!
-get_boats()
 
 
 # Command to let you know she's alive.
