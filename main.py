@@ -35,7 +35,7 @@ get_boats()
    
 
 # Other functions
-def to_regex(words):
+def to_regex(words, opt=''):
    regex = '^('
    for word in words:
       regex += '('
@@ -48,7 +48,7 @@ def to_regex(words):
          regex += ')'
       regex += ')|'
    regex = regex[:-1]
-   regex += ')(()|( ).*)$'
+   regex += ')' + opt + '$'
    return regex
 
 
@@ -178,7 +178,7 @@ def send_boat (m):
 # Returns a greeting if a user starts a sentence with the following regex.   
 GREETINGS = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
 SEARCH_FOR = ['hi', 'hello', 'hey', 'sup']
-@bot.message_handler(regexp=to_regex(SEARCH_FOR))
+@bot.message_handler(regexp=to_regex(SEARCH_FOR,'(()|( ).*)'))
 def send_hello (m):
    out = GREETINGS[random.randint(0, len(GREETINGS) - 1)]
    bot.send_message(m.chat.id, out)
