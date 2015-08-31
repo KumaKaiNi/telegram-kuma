@@ -62,7 +62,7 @@ def send_welcome (m):
 
 # List off commands.
 @bot.message_handler(commands=['help'])
-def send_welcome (m):
+def send_help (m):
    bot.send_message(m.chat.id, 
       "First ship of the Kuma-class light cruisers, Kuma, kuma.\n"
       + "Born in Sasebo, kuma. I got some old parts, but I'll try my best, kuma.\n"
@@ -78,7 +78,7 @@ def send_welcome (m):
 
 # For Andrew.
 @bot.message_handler(commands=['mgsv'])
-def send_welcome (m):   
+def send_mgsv (m):   
    mgsv = dt(2015,8,31,22,0,0) - dt.now()
    when = str(mgsv).split('.')[0]
    
