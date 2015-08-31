@@ -71,7 +71,9 @@ def send_welcome (m):
       + "/mgsv - posts the remaining time until release.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "\n"
-      + "Just as a warning, there is a 1% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi")
+      + "Just as a warning, there is a 1% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi\n"
+      + "\n"
+      + "Source: https://github.com/rekyuu/telegram-kuma")
 
 
 # For Andrew.
