@@ -149,32 +149,28 @@ def send_boat (m):
          del ships[rand]
          if len(ships) == 0:
             get_boats()
-   
-   while True:         
-      try:
-         # Sends the downloaded image and the title.
-         photo = open(filename, 'rb')
-         bot.send_photo(m.chat.id, photo)
-         print('[IMG]', filename)
-         
-         bot.send_message(m.chat.id, str(ships[rand]['title']).split("'")[1])
-         print('[MSG]', str(ships[rand]['title']).split("'")[1])
-         
-         # Closes the photo and removes it from the system.
-         photo.close()
-         os.remove(filename)
-         del ships[rand]
-         break
-      except:
-         # Closes the download, removes it, and tries again.
-         print("[LOG] Error sending image.")
-         bot.send_message(m.chat.id, "I'm hit, kuma! (Attempted to send a non-image. Listing removed. Try again!)")
-         photo.close()
-         os.remove(filename)
-         del ships[rand]
-         if len(ships) == 0:
-            get_boats()
-         break
+   try:
+      # Sends the downloaded image and the title.
+      photo = open(filename, 'rb')
+      bot.send_photo(m.chat.id, photo)
+      print('[IMG]', filename)
+      
+      bot.send_message(m.chat.id, str(ships[rand]['title']).split("'")[1])
+      print('[MSG]', str(ships[rand]['title']).split("'")[1])
+      
+      # Closes the photo and removes it from the system.
+      photo.close()
+      os.remove(filename)
+      del ships[rand]
+   except:
+      # Closes the download, removes it, and tries again.
+      print("[LOG] Error sending image.")
+      bot.send_message(m.chat.id, "I'm hit, kuma! (Attempted to send a non-image. Listing removed. Try again!)")
+      photo.close()
+      os.remove(filename)
+      del ships[rand]
+      if len(ships) == 0:
+         get_boats()
 
 
 # Returns a greeting if a user starts a sentence with the following regex.   
