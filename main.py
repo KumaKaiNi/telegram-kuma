@@ -94,9 +94,13 @@ def send_mgsv (m):
 # Repeats what the user just said.
 @bot.message_handler(commands=['say'])
 def send_say (m):
-   out = m.text.split(' ', 1)[1]
+   try:
+      out = m.text.split(' ', 1)[1]
+   except:
+      out = 'There is nothing to say, kuma.'
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)   
+   print('[MSG]', out)
+      
 
 
 # Adds two numbers or makes jokes.
