@@ -44,35 +44,41 @@ def send_sub_image (msg, sub, list_name, time_got):
 
    # Chooses a random listing and downloads the image.
    while True:
-      rand = random.randint(0, len(list_name) - 1)
-      dl = str(list_name[rand]['url']).split("'")[1]
-      filename = dl.split('/')[-1]
-      print("[LOG] Downloading " + filename + "...")
-
-      if filename.split('.')[-1] not in IMAGE_TYPES:
-         # If the file is not an image, it will try again.
-         print("[LOG] Not an image. Deleting entry and trying again.")
+      try:
+         rand = random.randint(0, len(list_name) - 1)
+         dl = str(list_name[rand]['url']).split("'")[1]
+         filename = dl.split('/')[-1]
+         print("[LOG] Downloading " + filename + "...")
+   
+         if filename.split('.')[-1] not in IMAGE_TYPES:
+            # If the file is not an image, it will try again.
+            print("[LOG] Not an image. Deleting entry and trying again.")
+            del list_name[rand]
+            if len(list_name) == 0:
+               get_top_posts(sub, list_name, time_got)
+         else:
+            # Downloads the image.
+            urllib.request.urlretrieve(dl, filename)
+   
+            # Sends the downloaded image and the title.
+            photo = open(filename, 'rb')
+            out = str(list_name[rand]['title']).split("'")[1]
+            bot.send_photo(msg.chat.id, photo)
+            print('[IMG]', filename)
+   
+            bot.send_message(msg.chat.id, out)
+            print('[MSG]', out)
+   
+            # Closes the photo and removes it from the system.
+            photo.close()
+            os.remove(filename)
+            del list_name[rand]
+            break
+      except HTTPError:
+         print("[LOG] Error downloading image. Trying again.")
          del list_name[rand]
          if len(list_name) == 0:
             get_top_posts(sub, list_name, time_got)
-      else:
-         # Downloads the image.
-         urllib.request.urlretrieve(dl, filename)
-
-         # Sends the downloaded image and the title.
-         photo = open(filename, 'rb')
-         out = str(list_name[rand]['title']).split("'")[1]
-         bot.send_photo(msg.chat.id, photo)
-         print('[IMG]', filename)
-
-         bot.send_message(msg.chat.id, out)
-         print('[MSG]', out)
-
-         # Closes the photo and removes it from the system.
-         photo.close()
-         os.remove(filename)
-         del list_name[rand]
-         break
 
 
 # Regex function
