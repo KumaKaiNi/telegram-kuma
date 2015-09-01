@@ -290,6 +290,16 @@ def send_hello (m):
    print('[MSG]', out)
 
 
+# Replies to thank you's.
+THANKS = ['thank you kuma', 'thanks kuma', 'ty kuma']
+TY_REPLIES = ['np', 'don\'t mention it', 'anytime', 'sure thing', 'ye whateva']
+@bot.message_handler(regexp=to_regex(THANKS))
+def send_thanks (m):
+   out = TY_REPLIES[random.randint(0, len(TY_REPLIES) - 1)]
+   bot.send_message(m.chat.id, out)
+   print('[MSG]', out)
+
+
 # 1% chance to tweet an incoming message.
 @bot.message_handler(regexp=".")
 def send_tweet (m):
