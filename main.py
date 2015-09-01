@@ -241,7 +241,7 @@ def send_coinflip (m):
 def send_diceroll (m):
    try:
       dice = random.randint(0,int(m.text.split()[1]))
-      if len(m.text.split) > 2:
+      if len(m.text.split()) > 2:
          out = "Please only send one number."
       else:
          out = "Rolled a " + str(dice)
