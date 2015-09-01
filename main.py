@@ -109,6 +109,7 @@ def send_help (m):
       + "Born in Sasebo, kuma. I got some old parts, but I'll try my best, kuma.\n"
       + "\n"
       + "/add x y z - takes your numbers and adds them together.\n"
+      + "/coin - flips a coin.\n"
       + "/say - repeats what you say.\n"
       + "/meme - sends a meme.\n"
       + "/predict - sends a prediction.\n"
@@ -223,7 +224,7 @@ def send_prediction (m):
    
 
 # Flips a coin.
-@bot.message_handler(commands=['predict'])
+@bot.message_handler(commands=['flip', 'coin'])
 def send_coinflip (m):
    coin = rand.randint(0,1)
    if coin == 0:
