@@ -264,6 +264,14 @@ def send_diceroll (m):
    finally:
       bot.send_message(m.chat.id, out)
       print('[MSG]', out)
+      
+
+# Sends a link to /r/botsrights
+@bot.message_handler(commands=['botsrights'])
+def send_prediction (m):
+   out = "http://reddit.com/r/botsrights"
+   bot.send_message(m.chat.id, out)
+   print('[MSG]', out)
 
 
 # Returns a greeting if a user starts a sentence with the following regex.
