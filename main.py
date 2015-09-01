@@ -241,7 +241,7 @@ def send_coinflip (m):
 def send_diceroll (m):
    try:
       dice = m.text.split()[1]
-      mult = m.text.split()[1].split('d')
+      mult = dice.split('d')
       if len(m.text.split()) >= 3:
          out = "Please only send one input."
       elif len(mult) == 2:
