@@ -112,7 +112,7 @@ def send_help (m):
       + "/coin - flips a coin.\n"
       + "/meme - sends a meme.\n"
       + "/predict - sends a prediction.\n"
-      + "/roll x - rolls a number between 0 and x.\n"
+      + "/roll x - rolls a number between 1 and x.\n"
       + "/say - repeats what you say.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "/tank - posts an image from the top posts of r/tankporn.\n"
@@ -245,9 +245,11 @@ def send_diceroll (m):
       if len(m.text.split()) >= 3:
          out = "Please only send one input."
       elif len(mult) == 2:
+         if int(mult[0]) <= 0 or int(mult[1]) <= 0:
+            out = "Inputs must be 1 or more."
          out = "Rolled " 
-         for x in range (0, int(mult[0])):
-            out += str(random.randint(0, int(mult[1])))
+         for x in range (1, int(mult[0])):
+            out += str(random.randint(1, int(mult[1])))
             out += ", "
          out = out[:-1] # Remove [ ]
          out = out[:-1] # Remove [,]
