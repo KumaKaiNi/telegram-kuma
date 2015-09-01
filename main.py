@@ -1,6 +1,6 @@
 import auth, datetime, os, praw, random, telebot, time, urllib.request
 from twitter import *
-   
+
 dt = datetime.datetime
 
 # Kuma-chan's unique ID.
@@ -13,28 +13,69 @@ t = Twitter(auth = OAuth(auth.TwitterAuth.access_key, auth.TwitterAuth.access_ke
 r = praw.Reddit(user_agent='Telegram:KumaKaiNi:v1.0.0 (by @rekyuu_senkan)')
 
 
-# Populates ships from r/warshipporn 
-ships = []
-ships_got = dt.now()
-def get_boats():
-   global ships
-   global ships_got
-   warships = r.get_subreddit('warshipporn')
-   
-   print("[LOG] Populating ships...")
+# Function to populate top posts of a given subreddit
+def get_top_posts (sub, list_name, time_got):
+
+   time_got = dt.now()
+   subr = r.get_subreddit(sub)
+
+   print("[LOG] Populating list...")
    pid = 0
-   for post in warships.get_hot(limit=25):
+   for post in subr.get_hot(limit=25):
       url = post.url.encode("utf-8")
       title = post.title.encode("utf-8")
-      ships.append({'pid': pid, 'title': title, 'url': url})
+      list_name.append({'pid': pid, 'title': title, 'url': url})
       pid += 1
-   print("[LOG] Ships populated!")
+   print("[LOG] List populated!")
 
-# Initializes boats!
-get_boats()
-   
 
-# Other functions
+# Function that sends the image
+IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
+def send_sub_image (msg, sub, list_name, time_got):
+
+   # Checks to make sure there is a listing.
+   if len(list_name) == 0:
+      print("[LOG] Nothing in list! Repopulating.")
+      get_top_posts(sub, list_name, time_got)
+   # Checks freshness of posts.
+   elif dt.now() - time_got >= datetime.timedelta(days=1):
+      print("[LOG] 24 hours have past since last update!")
+      get_top_posts(sub, list_name, time_got)
+
+   # Chooses a random listing and downloads the image.
+   while True:
+      rand = random.randint(0, len(list_name) - 1)
+      dl = str(list_name[rand]['url']).split("'")[1]
+      filename = dl.split('/')[-1]
+      print("[LOG] Downloading " + filename + "...")
+
+      if filename.split('.')[-1] not in IMAGE_TYPES:
+         # If the file is not an image, it will try again.
+         print("[LOG] Not an image. Deleting entry and trying again.")
+         del list_name[rand]
+         if len(list_name) == 0:
+            get_top_posts(sub, list_name, time_got)
+      else:
+         # Downloads the image.
+         urllib.request.urlretrieve(dl, filename)
+
+         # Sends the downloaded image and the title.
+         photo = open(filename, 'rb')
+         out = str(list_name[rand]['title']).split("'")[1]
+         bot.send_photo(msg.chat.id, photo)
+         print('[IMG]', filename)
+
+         bot.send_message(msg.chat.id, out)
+         print('[MSG]', out)
+
+         # Closes the photo and removes it from the system.
+         photo.close()
+         os.remove(filename)
+         del list_name[rand]
+         break
+
+
+# Regex function
 def to_regex(words, beg='', end=''):
    regex = '^(' + beg + ')('
    for word in words:
@@ -58,12 +99,12 @@ def send_welcome (m):
    out = "Kuma ~"
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
-   
+
 
 # List off commands.
 @bot.message_handler(commands=['help'])
 def send_help (m):
-   bot.send_message(m.chat.id, 
+   bot.send_message(m.chat.id,
       "First ship of the Kuma-class light cruisers, Kuma, kuma.\n"
       + "Born in Sasebo, kuma. I got some old parts, but I'll try my best, kuma.\n"
       + "\n"
@@ -76,21 +117,6 @@ def send_help (m):
       + "Source: https://github.com/rekyuu/telegram-kuma")
 
 
-# For Andrew.
-@bot.message_handler(commands=['mgsv'])
-def send_mgsv (m):   
-   mgsv = dt(2015,8,31,22,0,0) - dt.now()
-   when = str(mgsv).split('.')[0]
-   
-   if mgsv <= dt.now() - dt.now():
-      out = "Metal Gear Solid V has been released!"
-   else:
-      out = "Metal Gear Solid V will be released in " + when + "."
-   
-   bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
-   
-
 # Repeats what the user just said.
 @bot.message_handler(commands=['say'])
 def send_say (m):
@@ -100,19 +126,19 @@ def send_say (m):
       out = 'There is nothing to say, kuma.'
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
-      
+
 
 # Adds two numbers or makes jokes.
 @bot.message_handler(commands=['add'])
 def add_num (m):
    msg = m.text.split()
    del msg[0]
-   
+
    try:
       add = 0
       for n in msg:
          add += int(n)
-   
+
       if len(msg) == 2 and msg[0] == '1' and msg[1] == '1':
          out = "1 + 1 = 69 get it ?? lol ahahahahaha 69 = sexspoisition 1 = girl + boy ahaha"
       else:
@@ -122,63 +148,34 @@ def add_num (m):
          out = "fuck off"
       else:
          out = "Invalid input, sorry!"
-   
+
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
 
 
 # Sends the user a boat!
-@bot.message_handler(commands=['boat', 'ship', 'warship'])
+warships = []
+warships_got = dt.now()
+@bot.message_handler(commands=['ship'])
 def send_boat (m):
-   global ships
-   global ships_got
-   
-   if len(ships) == 0:
-      print("[LOG] Out of ships!")
-      get_boats()
-   elif dt.now() - ships_got >= datetime.timedelta(hours=6):
-      print("[LOG] Six hours have past since last update!")
-      get_boats()
-   
-   while True:
-      try:
-         # Chooses a random listing and downloads the image.
-         rand = random.randint(0, len(ships) - 1)
-         dl = str(ships[rand]['url']).split("'")[1]
-         filename = dl.split('/')[-1]   
-         urllib.request.urlretrieve(dl, filename)
-         break
-      except:
-         # Removes the failed entry, and tries again.
-         print("[LOG] Error downloading image. Trying again!")
-         del ships[rand]
-         if len(ships) == 0:
-            get_boats()
-   try:
-      # Sends the downloaded image and the title.
-      photo = open(filename, 'rb')
-      bot.send_photo(m.chat.id, photo)
-      print('[IMG]', filename)
-      
-      bot.send_message(m.chat.id, str(ships[rand]['title']).split("'")[1])
-      print('[MSG]', str(ships[rand]['title']).split("'")[1])
-      
-      # Closes the photo and removes it from the system.
-      photo.close()
-      os.remove(filename)
-      del ships[rand]
-   except:
-      # Closes the download, removes it, and tries again.
-      print("[LOG] Error sending image.")
-      bot.send_message(m.chat.id, "I'm hit, kuma! (Attempted to send a non-image. Listing removed. Try again!)")
-      photo.close()
-      os.remove(filename)
-      del ships[rand]
-      if len(ships) == 0:
-         get_boats()
+   global warships
+   global warships_got
+
+   send_sub_image (m, 'warshipporn', warships, warships_got)
 
 
-# Returns a greeting if a user starts a sentence with the following regex.   
+# Sends the user a tank!
+tanks = []
+tanks_got = dt.now()
+@bot.message_handler(commands=['tank'])
+def send_tonk (m):
+   global tanks
+   global tanks_got
+
+   send_sub_image (m, 'tankporn', tanks, tanks_got)
+
+
+# Returns a greeting if a user starts a sentence with the following regex.
 GREETINGS = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
 SEARCH_FOR = ['hi', 'hello', 'hey', 'sup']
 @bot.message_handler(regexp=to_regex(SEARCH_FOR,'','()|( ).*'))
@@ -192,8 +189,8 @@ def send_hello (m):
 @bot.message_handler(regexp=".")
 def send_tweet (m):
    prob = random.randint(1,100)
-   
-   if prob <= 1:   
+
+   if prob <= 1:
       t.statuses.update(status='"' + m.text + '"')
       bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
       print("[LOG] Sent tweet:", m.text)
@@ -205,7 +202,7 @@ def print_json (m):
    print('info:', m.__dict__)
    print('from:', m.from_user.__dict__)
    print('chat:', m.chat.__dict__)
-   
+
 
 # Listens for commands.
 bot.polling(none_stop=True)
