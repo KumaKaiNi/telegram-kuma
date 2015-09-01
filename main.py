@@ -247,12 +247,13 @@ def send_diceroll (m):
       elif len(mult) == 2:
          if int(mult[0]) <= 0 or int(mult[1]) <= 0:
             out = "Inputs must be 1 or more."
-         out = "Rolled " 
-         for x in range (1, int(mult[0])):
-            out += str(random.randint(1, int(mult[1])))
-            out += ", "
-         out = out[:-1] # Remove [ ]
-         out = out[:-1] # Remove [,]
+         else:
+            out = "Rolled " 
+            for x in range (1, int(mult[0])):
+               out += str(random.randint(1, int(mult[1])))
+               out += ", "
+            out = out[:-1] # Remove [ ]
+            out = out[:-1] # Remove [,]
       else:
          out = "Rolled a " + str(random.randint(0,int(dice)))
    except:
