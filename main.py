@@ -144,6 +144,8 @@ def add_num (m):
 
       if len(msg) == 2 and msg[0] == '1' and msg[1] == '1':
          out = "1 + 1 = 69 get it ?? lol ahahahahaha 69 = sexspoisition 1 = girl + boy ahaha"
+      elif len(msg) == 0:
+         out = "You didn't submit numbers!"
       else:
          out = "Your sum of numbers is: " + str(add)
    except:
@@ -176,6 +178,16 @@ def send_tonk (m):
    send_sub_image (m, 'tankporn', tanks, tanks_got)
 
 
+# Sends the user a meme!
+memes = []
+memes_got = dt.now()
+@bot.message_handler(commands=['meme'])
+def send_tonk (m):
+   global memes
+   global memes_got
+   send_sub_image (m, 'foodporn', memes, memes_got)
+
+
 # Sends the user a prediction.
 PREDICTIONS = [
    'It is certain.',
@@ -201,7 +213,10 @@ PREDICTIONS = [
 ]
 @bot.message_handler(commands=['predict'])
 def send_prediction (m):
-   out = PREDICTIONS[random.randint(0, len(PREDICTIONS) - 1)]
+   if len(m.text.split()) == 1:
+      out = "You didn't ask a question ya dingus"
+   else:
+      out = PREDICTIONS[random.randint(0, len(PREDICTIONS) - 1)]
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
 
