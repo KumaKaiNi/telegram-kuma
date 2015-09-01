@@ -246,7 +246,7 @@ def send_diceroll (m):
    elif len(mult) == 2:
       out = "Rolled " 
       for x in range (0, int(mult[0])):
-         out += str(random.randint(0, int(mult[1]))
+         out += str(random.randint(0, int(mult[1])))
          out += ", "
       out = out[:-1] # Remove [ ]
       out = out[:-1] # Remove [,]
