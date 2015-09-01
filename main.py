@@ -226,7 +226,7 @@ def send_prediction (m):
 # Flips a coin.
 @bot.message_handler(commands=['flip', 'coin'])
 def send_coinflip (m):
-   coin = rand.randint(0,1)
+   coin = random.randint(0,1)
    if coin == 0:
       out = "Heads."
    else:
