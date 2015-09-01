@@ -49,7 +49,7 @@ def send_sub_image (msg, sub, list_name, time_got):
          dl = str(list_name[rand]['url']).split("'")[1]
          filename = dl.split('/')[-1]
          print("[LOG] Downloading " + filename + "...")
-   
+
          if filename.split('.')[-1] not in IMAGE_TYPES:
             # If the file is not an image, it will try again.
             print("[LOG] Not an image. Deleting entry and trying again.")
@@ -59,16 +59,16 @@ def send_sub_image (msg, sub, list_name, time_got):
          else:
             # Downloads the image.
             urllib.request.urlretrieve(dl, filename)
-   
+
             # Sends the downloaded image and the title.
             photo = open(filename, 'rb')
             out = str(list_name[rand]['title']).split("'")[1]
             bot.send_photo(msg.chat.id, photo)
             print('[IMG]', filename)
-   
+
             bot.send_message(msg.chat.id, out)
             print('[MSG]', out)
-   
+
             # Closes the photo and removes it from the system.
             photo.close()
             os.remove(filename)
@@ -228,7 +228,7 @@ def send_prediction (m):
       out = PREDICTIONS[random.randint(0, len(PREDICTIONS) - 1)]
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
-   
+
 
 # Flips a coin.
 @bot.message_handler(commands=['flip', 'coin'])
@@ -240,7 +240,7 @@ def send_coinflip (m):
       out = "Tails."
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
-   
+
 
 # Rolls dice.
 @bot.message_handler(commands=['roll'])
@@ -254,7 +254,7 @@ def send_diceroll (m):
          if int(mult[0]) <= 1 or int(mult[1]) <= 1:
             out = "Inputs must be 2 or more. Example: 4d6"
          else:
-            out = "Rolled " 
+            out = "Rolled "
             for x in range (0, int(mult[0])):
                out += str(random.randint(1, int(mult[1])))
                out += ", "
@@ -270,7 +270,7 @@ def send_diceroll (m):
    finally:
       bot.send_message(m.chat.id, out)
       print('[MSG]', out)
-      
+
 
 # Sends a link to /r/botsrights
 @bot.message_handler(commands=['botsrights'])
@@ -282,7 +282,7 @@ def send_prediction (m):
 
 # Returns a greeting if a user starts a sentence with the following regex.
 GREETINGS = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
-SEARCH_FOR = ['hi', 'hello', 'hey', 'sup']
+SEARCH_FOR = ['hi', 'hello', 'yo', 'sup']
 @bot.message_handler(regexp=to_regex(SEARCH_FOR,'','()|( ).*'))
 def send_hello (m):
    out = GREETINGS[random.randint(0, len(GREETINGS) - 1)]
@@ -305,7 +305,7 @@ last_msg = ''
 @bot.message_handler(regexp=".")
 def send_tweet (m):
    global last_msg
-   
+
    if last_msg != m.text:
       last_msg = m.text
       prob = random.randint(1,100)
