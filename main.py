@@ -239,17 +239,21 @@ def send_coinflip (m):
 # Rolls dice.
 @bot.message_handler(commands=['roll'])
 def send_diceroll (m):
-   try:
-      dice = random.randint(0,int(m.text.split()[1]))
-      if len(m.text.split()) > 2:
-         out = "Please only send one number."
-      else:
-         out = "Rolled a " + str(dice)
-   except:
-      out = "You didn't input the amount of sides."
-   finally:
-      bot.send_message(m.chat.id, out)
-      print('[MSG]', out)
+   dice = m.text.split()[1]
+   mult = m.text.split()[1].split('d')
+   if len(m.text.split()) >= 3:
+      out = "Please only send one input."
+   elif len(mult) == 2:
+      out = "Rolled " 
+      for x in range (0, int(mult[0])):
+         out += str(random.randint(0, int(mult[1]))
+         out += ", "
+      out = out[:-1] # Remove [ ]
+      out = out[:-1] # Remove [,]
+   else:
+      out = "Rolled a " + str(random.randint(0,int(dice)))
+   bot.send_message(m.chat.id, out)
+   print('[MSG]', out)
 
 
 # Returns a greeting if a user starts a sentence with the following regex.
