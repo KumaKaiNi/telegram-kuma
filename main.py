@@ -110,6 +110,7 @@ def send_help (m):
       + "\n"
       + "/add x y z - takes your numbers and adds them together.\n"
       + "/say - repeats what you say.\n"
+      + "/meme - sends a meme.\n"
       + "/predict - sends a prediction.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "/tank - posts an image from the top posts of r/tankporn.\n"
