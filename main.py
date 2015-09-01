@@ -240,7 +240,7 @@ def send_coinflip (m):
 @bot.message_handler(commands=['roll'])
 def send_diceroll (m):
    try:
-      dice = random.randint(0,m.text.split()[1])
+      dice = random.randint(0,int(m.text.split()[1]))
       if len(m.text.split) > 2:
          out = "Please only send one number."
       else:
