@@ -306,7 +306,7 @@ last_msg = ''
 def send_tweet (m):
    global last_msg
    
-   if last_msg != m.txt:
+   if last_msg != m.text:
       last_msg = m.text
       prob = random.randint(1,100)
       if prob <= 1:
