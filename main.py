@@ -112,7 +112,7 @@ def send_help (m):
       + "/coin - flips a coin.\n"
       + "/meme - sends a meme.\n"
       + "/predict - sends a prediction.\n"
-      + "/roll x - rolls a number between 1 and x.\n"
+      + "/roll x - rolls a number between 1 and x. Also takes 4d6, etc.\n"
       + "/say - repeats what you say.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "/tank - posts an image from the top posts of r/tankporn.\n"
