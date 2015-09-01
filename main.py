@@ -245,7 +245,7 @@ def send_diceroll (m):
       if len(m.text.split()) >= 3:
          out = "Please only send one input."
       elif len(mult) == 2:
-         if int(mult[0]) <= 1 or int(mult[1]) <= 0:
+         if int(mult[0]) <= 1 or int(mult[1]) <= 1:
             out = "Inputs must be 2 or more. Example: 4d6"
          else:
             out = "Rolled " 
