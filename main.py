@@ -110,9 +110,10 @@ def send_help (m):
       + "\n"
       + "/add x y z - takes your numbers and adds them together.\n"
       + "/coin - flips a coin.\n"
-      + "/say - repeats what you say.\n"
       + "/meme - sends a meme.\n"
       + "/predict - sends a prediction.\n"
+      + "/roll x - rolls a number between 0 and x.\n"
+      + "/say - repeats what you say.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "/tank - posts an image from the top posts of r/tankporn.\n"
       + "\n"
@@ -233,6 +234,22 @@ def send_coinflip (m):
       out = "Tails."
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
+   
+
+# Rolls dice.
+@bot.message_handler(commands=['roll'])
+def send_diceroll (m):
+   try:
+      dice = random.randint(0,m.text.split()[1])
+      if len(m.text.split) > 2:
+         out = "Please only send one number."
+      else:
+         out = "Rolled a " + str(dice)
+   except:
+      out = "You didn't input the amount of sides."
+   finally:
+      bot.send_message(m.chat.id, out)
+      print('[MSG]', out)
 
 
 # Returns a greeting if a user starts a sentence with the following regex.
