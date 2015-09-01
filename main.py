@@ -110,6 +110,7 @@ def send_help (m):
       + "\n"
       + "/add x y z - takes your numbers and adds them together.\n"
       + "/say - repeats what you say.\n"
+      + "/predict - sends a prediction.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "/tank - posts an image from the top posts of r/tankporn.\n"
       + "\n"
@@ -125,8 +126,9 @@ def send_say (m):
       out = m.text.split(' ', 1)[1]
    except:
       out = 'There is nothing to say, kuma.'
-   bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   finally:
+      bot.send_message(m.chat.id, out)
+      print('[MSG]', out)
 
 
 # Adds two numbers or makes jokes.
@@ -149,9 +151,9 @@ def add_num (m):
          out = "fuck off"
       else:
          out = "Invalid input, sorry!"
-
-   bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   finally:
+      bot.send_message(m.chat.id, out)
+      print('[MSG]', out)
 
 
 # Sends the user a boat!
@@ -161,7 +163,6 @@ warships_got = dt.now()
 def send_boat (m):
    global warships
    global warships_got
-
    send_sub_image (m, 'warshipporn', warships, warships_got)
 
 
@@ -172,8 +173,37 @@ tanks_got = dt.now()
 def send_tonk (m):
    global tanks
    global tanks_got
-
    send_sub_image (m, 'tankporn', tanks, tanks_got)
+
+
+# Sends the user a prediction.
+PREDICTIONS = [
+   'It is certain.',
+   'It is decidedly so.',
+   'Without a doubt.',
+   'Yes, definitely.',
+   'You may rely on it.',
+   'As I see it, yes.',
+   'Most likely.',
+   'Outlook good.',
+   'Yes.',
+   'Signs point to yes.',
+   'Reply hazy, try again.',
+   'Ask again later.',
+   'Better not tell you now.',
+   'Cannot predict now.',
+   'Concentrate and ask again.',
+   'Don\'t count on it.',
+   'My reply is no.',
+   'My sources say no.',
+   'Outlook not so good.',
+   'Very doubtful.'
+]
+@bot.message_handler(commands=['predict'])
+def send_prediction (m):
+   out = PREDICTIONS[random.randint(0, len(PREDICTIONS) - 1)]
+   bot.send_message(m.chat.id, out)
+   print('[MSG]', out)
 
 
 # Returns a greeting if a user starts a sentence with the following regex.
@@ -190,7 +220,6 @@ def send_hello (m):
 @bot.message_handler(regexp=".")
 def send_tweet (m):
    prob = random.randint(1,100)
-
    if prob <= 1:
       t.statuses.update(status='"' + m.text + '"')
       bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
