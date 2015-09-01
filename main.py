@@ -249,7 +249,7 @@ def send_diceroll (m):
             out = "Inputs must be 1 or more."
          else:
             out = "Rolled " 
-            for x in range (1, int(mult[0])):
+            for x in range (0, int(mult[0])):
                out += str(random.randint(1, int(mult[1])))
                out += ", "
             out = out[:-1] # Remove [ ]
