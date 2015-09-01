@@ -76,7 +76,7 @@ def send_sub_image (msg, sub, list_name, time_got):
 
 
 # Regex function
-def to_regex(words, beg='', end=''):
+def to_regex (words, beg='', end=''):
    regex = '^(' + beg + ')('
    for word in words:
       regex += '('
@@ -109,8 +109,9 @@ def send_help (m):
       + "Born in Sasebo, kuma. I got some old parts, but I'll try my best, kuma.\n"
       + "\n"
       + "/add x y z - takes your numbers and adds them together.\n"
-      + "/mgsv - posts the remaining time until release.\n"
+      + "/say - repeats what you say.\n"
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
+      + "/tank - posts an image from the top posts of r/tankporn.\n"
       + "\n"
       + "Just as a warning, there is a 1% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi\n"
       + "\n"
