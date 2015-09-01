@@ -255,7 +255,10 @@ def send_diceroll (m):
             out = out[:-1] # Remove [ ]
             out = out[:-1] # Remove [,]
       else:
-         out = "Rolled a " + str(random.randint(0,int(dice)))
+         if int(dice) <= 1:
+            out = "Input must be 2 or more."
+         else:
+            out = "Rolled a " + str(random.randint(0,int(dice)))
    except:
       out = "Please send only numbers."
    finally:
