@@ -301,13 +301,20 @@ def send_thanks (m):
 
 
 # 1% chance to tweet an incoming message.
+last_msg = ''
 @bot.message_handler(regexp=".")
 def send_tweet (m):
-   prob = random.randint(1,100)
-   if prob <= 1:
-      t.statuses.update(status='"' + m.text + '"')
-      bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
-      print("[LOG] Sent tweet:", m.text)
+   global last_msg
+   
+   if last_msg != m.txt:
+      last_msg = m.text
+      prob = random.randint(1,100)
+      if prob <= 1:
+         t.statuses.update(status='"' + m.text + '"')
+         bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
+         print("[LOG] Sent tweet:", m.text)
+   else:
+      last_msg = m.text
 
 
 # Prints available json to the console.
