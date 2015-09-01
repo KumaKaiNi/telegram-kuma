@@ -292,6 +292,7 @@ def send_hello (m):
 
 # Replies to thank you's.
 THANKS = ['thank you kuma', 'thanks kuma', 'ty kuma']
+print('[LOG]', to_regex(THANKS))
 TY_REPLIES = ['np', 'don\'t mention it', 'anytime', 'sure thing', 'ye whateva']
 @bot.message_handler(regexp=to_regex(THANKS))
 def send_thanks (m):
