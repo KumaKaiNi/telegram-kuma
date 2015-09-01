@@ -220,6 +220,18 @@ def send_prediction (m):
       out = PREDICTIONS[random.randint(0, len(PREDICTIONS) - 1)]
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
+   
+
+# Flips a coin.
+@bot.message_handler(commands=['predict'])
+def send_coinflip (m):
+   coin = rand.randint(0,1)
+   if coin == 0:
+      out = "Heads."
+   else:
+      out = "Tails."
+   bot.send_message(m.chat.id, out)
+   print('[MSG]', out)
 
 
 # Returns a greeting if a user starts a sentence with the following regex.
