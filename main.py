@@ -83,19 +83,15 @@ def send_sub_image (msg, sub, list_name, time_got):
 
 # Regex function
 def to_regex (words, beg='', end=''):
-   regex = '^(' + beg + ')('
+   regex = ''.join(['^(', beg, ')('])
    for word in words:
       regex += '('
       letters = list(word)
       for letter in letters:
-         regex += '('
-         regex += letter.upper()
-         regex += '|'
-         regex += letter.lower()
-         regex += ')'
+         regex = ''.join([regex, '(', letter.upper(), '|', letter.lower(), ')'])
       regex += ')|'
    regex = regex[:-1]
-   regex += ')(' + end + ')$'
+   regex = ''.join([regex, ')(', end, ')$'])
    return regex
 
 
@@ -256,9 +252,7 @@ def send_diceroll (m):
          else:
             out = "Rolled "
             for x in range (0, int(mult[0])):
-               out += str(random.randint(1, int(mult[1])))
-               out += ", "
-            out = out[:-1] # Remove [ ]
+               out = ' '.join([out, str(random.randint(1, int(mult[1]))) + ","])
             out = out[:-1] # Remove [,]
       else:
          if int(dice) <= 1:
