@@ -187,7 +187,7 @@ def send_tonk (m):
 memes = []
 memes_got = dt.now()
 @bot.message_handler(commands=['meme'])
-def send_tonk (m):
+def send_meme (m):
    global memes
    global memes_got
    send_sub_image (m, 'foodporn', memes, memes_got)
@@ -268,7 +268,7 @@ def send_diceroll (m):
 
 # Sends a link to /r/botsrights
 @bot.message_handler(commands=['botsrights'])
-def send_prediction (m):
+def send_rights (m):
    out = "http://reddit.com/r/botsrights"
    bot.send_message(m.chat.id, out)
    print('[MSG]', out)
