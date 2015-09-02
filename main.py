@@ -250,7 +250,7 @@ def send_diceroll (m):
          if int(mult[0]) <= 1 or int(mult[1]) <= 1:
             out = "Inputs must be 2 or more. Example: 4d6"
          else:
-            out = "Rolled "
+            out = "Rolled"
             for x in range (0, int(mult[0])):
                out = ' '.join([out, str(random.randint(1, int(mult[1]))) + ","])
             out = out[:-1] # Remove [,]
