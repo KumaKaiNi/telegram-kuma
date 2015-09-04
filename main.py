@@ -3,6 +3,12 @@ from twitter import *
 
 dt = datetime.datetime
 
+
+"""
+API and auth keys. Will be located in auth.py.
+"""
+
+
 # Kuma-chan's unique ID.
 bot = telebot.TeleBot(auth.Telegram.api_key)
 
@@ -11,6 +17,11 @@ t = Twitter(auth = OAuth(auth.TwitterAuth.access_key, auth.TwitterAuth.access_ke
 
 # Reddit stuff.
 r = praw.Reddit(user_agent='Telegram:KumaKaiNi:v1.0.0 (by @rekyuu_senkan)')
+
+
+"""
+Helper functions.
+"""
 
 
 # Function to populate top posts of a given subreddit
@@ -96,12 +107,9 @@ def to_regex (words, beg='', end=''):
    return regex
 
 
-# Command to let you know she's alive.
-@bot.message_handler(commands=['kuma'])
-def send_welcome (m):
-   out = "Kuma ~"
-   bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+"""
+Command definitions and listeners.
+"""
 
 
 # List off commands.
@@ -123,6 +131,14 @@ def send_help (m):
       + "Just as a warning, there is a 1% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi\n"
       + "\n"
       + "Source: https://github.com/rekyuu/telegram-kuma")
+
+
+# Command to let you know she's alive.
+@bot.message_handler(commands=['kuma'])
+def send_welcome (m):
+   out = "Kuma ~"
+   bot.send_message(m.chat.id, out)
+   print('[MSG]', out)
 
 
 # Repeats what the user just said.
@@ -275,6 +291,19 @@ def send_rights (m):
    print('[MSG]', out)
 
 
+# Prints available json to the console.
+@bot.message_handler(commands=['test'])
+def print_json (m):
+   print('info:', m.__dict__)
+   print('from:', m.from_user.__dict__)
+   print('chat:', m.chat.__dict__)
+
+
+"""
+Regex listeners.
+"""
+
+
 # Returns a greeting if a user starts a sentence with the following regex.
 GREETINGS = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
 SEARCH_FOR = ['hi', 'hello', 'yo', 'sup']
@@ -295,7 +324,7 @@ def send_thanks (m):
    print('[MSG]', out)
 
 
-# 1% chance to tweet an incoming message.
+# 1% chance to tweet an incoming message, if none of the above were processed.
 last_msg = ''
 @bot.message_handler(regexp=".")
 def send_tweet (m):
@@ -312,15 +341,11 @@ def send_tweet (m):
       last_msg = m.text
 
 
-# Prints available json to the console.
-@bot.message_handler(commands=['test'])
-def print_json (m):
-   print('info:', m.__dict__)
-   print('from:', m.from_user.__dict__)
-   print('chat:', m.chat.__dict__)
+"""
+Main command listener.
+"""
 
 
-# Listens for commands.
 bot.polling(none_stop=True)
 print('[LOG] Kuma! Shutsugeki suru, kuma!')
 while True:
