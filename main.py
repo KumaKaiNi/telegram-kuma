@@ -30,8 +30,9 @@ Helper functions and definitions.
 CON = {
    'log': ''.join(['[', Fore.YELLOW, 'LOG', Fore.RESET, ']']),
    'err': ''.join(['[', Fore.RED,    'ERR', Fore.RESET, ']']),
-   'img': ''.join(['[', Fore.CYAN,   'IMG', Fore.RESET, ']']),
-   'msg': ''.join(['[', Fore.GREEN,  'MSG', Fore.RESET, ']'])
+   'img': ''.join(['[', Fore.GREEN,  'IMG', Fore.RESET, ']']),
+   'msg': ''.join(['[', Fore.GREEN,  'MSG', Fore.RESET, ']']),
+   'twt': ''.join(['[', Fore.CYAN,   'TWT', Fore.RESET, ']']),
 }
 
 
@@ -347,7 +348,7 @@ def send_tweet (m):
       if prob <= 1:
          t.statuses.update(status=m.text)
          bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
-         print(CON['log'], "Sent tweet:", m.text)
+         print(CON['twt'], "Sent tweet:", m.text)
    else:
       last_msg = m.text
 
