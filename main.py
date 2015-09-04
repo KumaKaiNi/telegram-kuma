@@ -320,7 +320,7 @@ GREETS = ['hi', 'hello', 'yo', 'sup']
 GREET_REPLIES = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
 @bot.message_handler(regexp=to_regex(GREETS,'','()|( ).*'))
 def send_hello (m):
-   out = GREETINGS[random.randint(0, len(GREET_REPLIES) - 1)]
+   out = GREET_REPLIES[random.randint(0, len(GREET_REPLIES) - 1)]
    bot.send_message(m.chat.id, out)
    print(CON['msg'], out)
 
