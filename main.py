@@ -28,10 +28,10 @@ Helper functions and definitions.
 
 # Console logging texts.
 CON = {
-   'log' : ''.join(['[', Fore.YELLOW,  'LOG', Fore.RESET, ']']),
-   'err' : ''.join(['[', Fore.RED,     'ERR', Fore.RESET, ']']),
-   'img' : ''.join(['[', Fore.CYAN,    'IMG', Fore.RESET, ']']),
-   'msg' : ''.join(['[', Fore.GREEN,   'MSG', Fore.RESET, ']'])
+   'log': ''.join(['[', Fore.YELLOW, 'LOG', Fore.RESET, ']']),
+   'err': ''.join(['[', Fore.RED,    'ERR', Fore.RESET, ']']),
+   'img': ''.join(['[', Fore.CYAN,   'IMG', Fore.RESET, ']']),
+   'msg': ''.join(['[', Fore.GREEN,  'MSG', Fore.RESET, ']'])
 }
 
 
