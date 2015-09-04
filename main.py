@@ -18,7 +18,7 @@ bot = telebot.TeleBot(auth.Telegram.api_key)
 t = Twitter(auth = OAuth(auth.TwitterAuth.access_key, auth.TwitterAuth.access_key_secret, auth.TwitterAuth.consumer_key, auth.TwitterAuth.consumer_key_secret))
 
 # Reddit stuff.
-r = praw.Reddit(user_agent='Telegram:KumaKaiNi:v1.0.0 (by @rekyuu_senkan)')
+r = praw.Reddit(user_agent='Telegram:KumaKaiNi-Py:v1.0.0 (by @rekyuu_senkan)')
 
 
 """
