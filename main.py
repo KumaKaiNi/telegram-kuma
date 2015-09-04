@@ -345,7 +345,7 @@ def send_tweet (m):
       last_msg = m.text
       prob = random.randint(1,100)
       if prob <= 1:
-         t.statuses.update(status='"' + m.text + '"')
+         t.statuses.update(status=m.text)
          bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
          print(CON['log'], "Sent tweet:", m.text)
    else:
