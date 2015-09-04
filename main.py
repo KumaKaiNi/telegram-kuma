@@ -40,6 +40,7 @@ def send_sub_image (msg, sub, list_name, time_got):
    # Checks freshness of posts.
    elif dt.now() - time_got >= datetime.timedelta(days=1):
       print("[LOG] 24 hours have past since last update!")
+      time_got = dt.now()
       get_top_posts(sub, list_name, time_got)
 
    # Chooses a random listing and downloads the image.
