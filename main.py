@@ -304,9 +304,9 @@ def send_rights (m):
 # Prints available json to the console.
 @bot.message_handler(commands=['test'])
 def print_json (m):
-   print(CON['msg'], 'info:', m.__dict__)
-   print(CON['msg'], 'from:', m.from_user.__dict__)
-   print(CON['msg'], 'chat:', m.chat.__dict__)
+   print(CON['log'], 'info:', m.__dict__)
+   print(CON['log'], 'from:', m.from_user.__dict__)
+   print(CON['log'], 'chat:', m.chat.__dict__)
 
 
 """
