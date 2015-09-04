@@ -41,7 +41,7 @@ def get_top_posts (sub, list_name, time_got):
    time_got = dt.now()
    subr = r.get_subreddit(sub)
 
-   print("[LOG] Populating list...")
+   print(CON['log'], "Populating list...")
    pid = 0
    for post in subr.get_hot(limit=25):
       url = post.url.encode("utf-8")
