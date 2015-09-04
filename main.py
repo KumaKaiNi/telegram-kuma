@@ -1,6 +1,8 @@
 import auth, datetime, os, praw, random, telebot, time, urllib.request
+from colorama import init, Fore
 from twitter import *
 
+init()
 dt = datetime.datetime
 
 
@@ -20,9 +22,18 @@ r = praw.Reddit(user_agent='Telegram:KumaKaiNi:v1.0.0 (by @rekyuu_senkan)')
 
 
 """
-Helper functions.
+Helper functions and definitions.
 """
 
+
+# Console logging texts.
+
+CON = {
+   'log' : ''.join(['[', Fore.YELLOW,  'LOG', Fore.RESET, ']']),
+   'err' : ''.join(['[', Fore.RED,     'ERR', Fore.RESET, ']']),
+   'img' : ''.join(['[', Fore.CYAN,    'IMG', Fore.RESET, ']']),
+   'msg' : ''.join(['[', Fore.GREEN,   'MSG', Fore.RESET, ']'])
+}
 
 # Function to populate top posts of a given subreddit
 def get_top_posts (sub, list_name, time_got):
@@ -37,7 +48,7 @@ def get_top_posts (sub, list_name, time_got):
       title = post.title.encode("utf-8")
       list_name.append({'pid': pid, 'title': title, 'url': url})
       pid += 1
-   print("[LOG] List populated!")
+   print(CON.log, "List populated!")
 
 
 # Function that sends the image
@@ -46,11 +57,11 @@ def send_sub_image (msg, sub, list_name, time_got):
 
    # Checks to make sure there is a listing.
    if len(list_name) == 0:
-      print("[LOG] Nothing in list! Repopulating.")
+      print(CON.log, "Nothing in list! Repopulating.")
       get_top_posts(sub, list_name, time_got)
    # Checks freshness of posts.
    elif dt.now() - time_got >= datetime.timedelta(days=1):
-      print("[LOG] 24 hours have past since last update!")
+      print(CON.log, "24 hours have past since last update!")
       time_got = dt.now()
       get_top_posts(sub, list_name, time_got)
 
@@ -60,11 +71,11 @@ def send_sub_image (msg, sub, list_name, time_got):
          rand = random.randint(0, len(list_name) - 1)
          dl = str(list_name[rand]['url']).split("'")[1]
          filename = dl.split('/')[-1]
-         print("[LOG] Downloading " + filename + "...")
+         print(CON.log, "Downloading", filename + "...")
 
          if filename.split('.')[-1] not in IMAGE_TYPES:
             # If the file is not an image, it will try again.
-            print("[LOG] Not an image. Deleting entry and trying again.")
+            print(CON.err, "Not an image. Deleting entry and trying again.")
             del list_name[rand]
             if len(list_name) == 0:
                get_top_posts(sub, list_name, time_got)
@@ -76,10 +87,10 @@ def send_sub_image (msg, sub, list_name, time_got):
             photo = open(filename, 'rb')
             out = str(list_name[rand]['title']).split("'")[1]
             bot.send_photo(msg.chat.id, photo)
-            print('[IMG]', filename)
+            print(CON.img, filename)
 
             bot.send_message(msg.chat.id, out)
-            print('[MSG]', out)
+            print(CON.msg, out)
 
             # Closes the photo and removes it from the system.
             photo.close()
@@ -87,7 +98,7 @@ def send_sub_image (msg, sub, list_name, time_got):
             del list_name[rand]
             break
       except HTTPError:
-         print("[LOG] Error downloading image. Trying again.")
+         print(CON.err, "Error downloading image. Trying again.")
          del list_name[rand]
          if len(list_name) == 0:
             get_top_posts(sub, list_name, time_got)
@@ -138,7 +149,7 @@ def send_help (m):
 def send_welcome (m):
    out = "Kuma ~"
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   print(CON.msg, out)
 
 
 # Repeats what the user just said.
@@ -150,7 +161,7 @@ def send_say (m):
       out = 'There is nothing to say, kuma.'
    finally:
       bot.send_message(m.chat.id, out)
-      print('[MSG]', out)
+      print(CON.msg, out)
 
 
 # Adds two numbers or makes jokes.
@@ -177,7 +188,7 @@ def add_num (m):
          out = "Invalid input, sorry!"
    finally:
       bot.send_message(m.chat.id, out)
-      print('[MSG]', out)
+      print(CON.msg, out)
 
 
 # Sends the user a boat!
@@ -240,7 +251,7 @@ def send_prediction (m):
    else:
       out = PREDICTIONS[random.randint(0, len(PREDICTIONS) - 1)]
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   print(CON.msg, out)
 
 
 # Flips a coin.
@@ -252,7 +263,7 @@ def send_coinflip (m):
    else:
       out = "Tails."
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   print(CON.msg, out)
 
 
 # Rolls dice.
@@ -280,7 +291,7 @@ def send_diceroll (m):
       out = "Please send only numbers."
    finally:
       bot.send_message(m.chat.id, out)
-      print('[MSG]', out)
+      print(CON.msg, out)
 
 
 # Sends a link to /r/botsrights
@@ -288,15 +299,15 @@ def send_diceroll (m):
 def send_rights (m):
    out = "http://reddit.com/r/botsrights"
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   print(CON.msg, out)
 
 
 # Prints available json to the console.
 @bot.message_handler(commands=['test'])
 def print_json (m):
-   print('info:', m.__dict__)
-   print('from:', m.from_user.__dict__)
-   print('chat:', m.chat.__dict__)
+   print(CON.msg, 'info:', m.__dict__)
+   print(CON.msg, 'from:', m.from_user.__dict__)
+   print(CON.msg, 'chat:', m.chat.__dict__)
 
 
 """
@@ -311,7 +322,7 @@ SEARCH_FOR = ['hi', 'hello', 'yo', 'sup']
 def send_hello (m):
    out = GREETINGS[random.randint(0, len(GREETINGS) - 1)]
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   print(CON.msg, out)
 
 
 # Replies to thank you's.
@@ -321,7 +332,7 @@ TY_REPLIES = ['np', 'don\'t mention it', 'anytime', 'sure thing', 'ye whateva']
 def send_thanks (m):
    out = TY_REPLIES[random.randint(0, len(TY_REPLIES) - 1)]
    bot.send_message(m.chat.id, out)
-   print('[MSG]', out)
+   print(CON.msg, out)
 
 
 # 1% chance to tweet an incoming message, if none of the above were processed.
@@ -336,7 +347,7 @@ def send_tweet (m):
       if prob <= 1:
          t.statuses.update(status='"' + m.text + '"')
          bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
-         print("[LOG] Sent tweet:", m.text)
+         print(CON.log, "Sent tweet:", m.text)
    else:
       last_msg = m.text
 
@@ -347,6 +358,6 @@ Main command listener.
 
 
 bot.polling(none_stop=True)
-print('[LOG] Kuma! Shutsugeki suru, kuma!')
+print(CON.log, 'Kuma! Shutsugeki suru, kuma!')
 while True:
    time.sleep(100)
