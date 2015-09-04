@@ -34,6 +34,7 @@ CON = {
    'msg' : ''.join(['[', Fore.GREEN,   'MSG', Fore.RESET, ']'])
 }
 
+
 # Function to populate top posts of a given subreddit
 def get_top_posts (sub, list_name, time_got):
 
