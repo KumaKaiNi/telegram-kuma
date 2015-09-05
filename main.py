@@ -226,11 +226,10 @@ def send_meme (m):
 @bot.message_handler(commands=['dank', 'kush', 'pot', 'merrywanna'])
 def send_dank (m):
    try:
-      out = ''.join(['Shut the fuck up, ', '@', m.from_user.username])
+      name = m.from_user.username
    except:
-      out = ''.join(['Shut the fuck up, ', '@', m.from_user.first_name])
-   else:
-      out = 'Shut the fuck up'
+      name = m.from_user.first_name
+   out = ''.join(['Shut the fuck up, @', name])
    bot.send_message(m.chat.id, out)
    print(CON['msg'], out)
 
