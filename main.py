@@ -222,6 +222,14 @@ def send_meme (m):
    send_sub_image (m, 'foodporn', memes, memes_got)
 
 
+# Anti-Wayne command
+@bot.message_handler(commands=['dank'])
+def send_dank (m):
+   out = "Shut the fuck up, Wayne"
+   bot.send_message(m.chat.id, out)
+   print(CON['msg'], out)
+
+
 # Sends the user a prediction.
 PREDICTIONS = [
    'It is certain.',
