@@ -223,7 +223,7 @@ def send_meme (m):
 
 
 # Anti-Wayne command
-@bot.message_handler(commands=['dank', 'kush'])
+@bot.message_handler(commands=['dank', 'kush', 'pot', 'merrywanna'])
 def send_dank (m):
    try:
       out = ''.join(['Shut the fuck up, ', '@', m.from_user.username])
