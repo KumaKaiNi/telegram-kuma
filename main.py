@@ -42,14 +42,14 @@ def log (m):
       name = m.from_user.first_name
    finally:
       logging.basicConfig(
-         filename = './logs/' + m.chat.chatid + '.log',
+         filename = './logs/' + str(m.chat.chatid) + '.log',
          format = '[%(asctime)s] <' + name + '> %(message)s',
          datefmt = '%H:%M:%S')
       logging.info(m.text)
 
 def word_log (m):
    logging.basicConfig(
-      filename = './wordlogs/' + m.chat.chatid + '.log',
+      filename = './wordlogs/' + str(m.chat.chatid) + '.log',
       format = '%(message)s')
    # Ignores messages that start with links or are just links
    if m.text.split(':')[0] not in ['http', 'https']:
@@ -380,7 +380,7 @@ def send_thanks (m):
 # 1% chance to tweet an incoming message, if none of the above were processed.
 last_msg = ''
 @bot.message_handler(regexp=".")
-def send_tweet (m):
+def all_other_messages (m):
    global last_msg
 
    # Logs incoming messages to a file
@@ -397,7 +397,7 @@ def send_tweet (m):
             word_count += int(len(line.split()))
             msg_total += 1
          word_avg = word_count / msg_total
-         
+
          markov = Markov(file_)
          out = markov.generate_markov_text(word_avg + random.randint(0,5))
 
