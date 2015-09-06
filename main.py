@@ -56,14 +56,10 @@ def word_log (m):
       print(CON['err'], 'Log file does not exist. Creating.')
       log = open('./wordlogs/' + str(m.chat.id) + '.log', 'w', encoding='utf8')
    finally:
-      log.close()
-      logging.basicConfig(
-         filename = './wordlogs/' + str(m.chat.id) + '.log',
-         filemode = 'a+',
-         format = '%(message)s')
       # Ignores messages that start with links or are just links
       if m.text.split(':')[0] not in ['http', 'https']:
-         logging.info(m.text)
+         log.write(m.text + '\n')
+      log.close()
 
 
 # Function to populate top posts of a given subreddit
