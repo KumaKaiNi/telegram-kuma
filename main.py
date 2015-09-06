@@ -42,14 +42,14 @@ def log (m):
       name = m.from_user.first_name
    finally:
       logging.basicConfig(
-         filename = './logs/' + str(m.chat.chatid) + '.log',
+         filename = './logs/' + str(m.chat.id) + '.log',
          format = '[%(asctime)s] <' + name + '> %(message)s',
          datefmt = '%H:%M:%S')
       logging.info(m.text)
 
 def word_log (m):
    logging.basicConfig(
-      filename = './wordlogs/' + str(m.chat.chatid) + '.log',
+      filename = './wordlogs/' + str(m.chat.id) + '.log',
       format = '%(message)s')
    # Ignores messages that start with links or are just links
    if m.text.split(':')[0] not in ['http', 'https']:
