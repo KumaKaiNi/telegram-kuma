@@ -399,6 +399,8 @@ def all_other_messages (m):
 
          bot.send_message(m.chat.id, out)
          print(CON['msg'], out)
+         t.statuses.update(status=out + ' *Kuma Kai Ni')
+         print(CON['twt'], out + ' *Kuma Kai Ni')
       file_.close()
 
    # Really simple and lazy spam protection
@@ -406,9 +408,14 @@ def all_other_messages (m):
       last_msg = m.text
       # 1:100 chance to tweet the last message recieved
       if prob(1,100) == True:
-         t.statuses.update(status=m.text)
+         try:
+            name = m.from_user.username
+         except:
+            name = m.from_user.first_name
+         out = m.text + ' *' + name
+         t.statuses.update(status=out)
          bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
-         print(CON['twt'], "Sent tweet:", m.text)
+         print(CON['twt'], out)
    else:
       last_msg = m.text
 
