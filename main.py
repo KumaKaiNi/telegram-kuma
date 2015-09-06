@@ -388,7 +388,7 @@ def all_other_messages (m):
 
    # 1:20 chance of firing a markov chain message
    if prob(1,20):
-      file_ = open('./wordlogs/' + m.chat.chatid + '.log', encoding='utf8')
+      file_ = open('./wordlogs/' + m.chat.id + '.log', encoding='utf8')
 
       # Will file once the log reaches 100 lines or more
       if len(file_.read().splitlines()) >= 100:
