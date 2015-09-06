@@ -50,6 +50,7 @@ def log (m):
 def word_log (m):
    logging.basicConfig(
       filename = './wordlogs/' + str(m.chat.id) + '.log',
+      filemode = 'a+',
       format = '%(message)s')
    # Ignores messages that start with links or are just links
    if m.text.split(':')[0] not in ['http', 'https']:
