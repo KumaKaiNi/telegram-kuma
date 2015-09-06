@@ -35,17 +35,7 @@ CON = {
    'msg': ''.join(['[', Fore.GREEN,  'MSG', Fore.RESET, ']']),
    'twt': ''.join(['[', Fore.CYAN,   'TWT', Fore.RESET, ']']),
 }
-def log (m):
-   try:
-      name = m.from_user.username
-   except:
-      name = m.from_user.first_name
-   finally:
-      logging.basicConfig(
-         filename = './logs/' + str(m.chat.id) + '.log',
-         format = '[%(asctime)s] <' + name + '> %(message)s',
-         datefmt = '%H:%M:%S')
-      logging.info(m.text)
+
 
 def word_log (m):
    if not os.path.exists('./wordlogs'):
