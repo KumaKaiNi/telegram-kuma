@@ -48,6 +48,8 @@ def log (m):
       logging.info(m.text)
 
 def word_log (m):
+   if not os.path.exists('./wordlogs')
+      os.makedirs('./wordlogs')
    try:
       open('./wordlogs/' + str(m.chat.id) + '.log', 'a+', encoding='utf8')
    except:
