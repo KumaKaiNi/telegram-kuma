@@ -1,5 +1,6 @@
-import auth, datetime, os, praw, random, telebot, time, urllib.request
+import auth, datetime, logging, os, praw, random, telebot, time, urllib.request
 from colorama import init, Fore
+from markov import Markov
 from twitter import *
 
 init()
@@ -26,7 +27,7 @@ Helper functions and definitions.
 """
 
 
-# Console logging texts.
+# Logging definitions.
 CON = {
    'log': ''.join(['[', Fore.YELLOW, 'LOG', Fore.RESET, ']']),
    'err': ''.join(['[', Fore.RED,    'ERR', Fore.RESET, ']']),
@@ -34,6 +35,25 @@ CON = {
    'msg': ''.join(['[', Fore.GREEN,  'MSG', Fore.RESET, ']']),
    'twt': ''.join(['[', Fore.CYAN,   'TWT', Fore.RESET, ']']),
 }
+def log (m):
+   try:
+      name = m.from_user.username
+   except:
+      name = m.from_user.first_name
+   finally:
+      logging.basicConfig(
+         filename = './logs/' + m.chat.chatid + '.log',
+         format = '[%(asctime)s] <' + name + '> %(message)s',
+         datefmt = '%H:%M:%S')
+      logging.info(m.text)
+
+def word_log (m):
+   logging.basicConfig(
+      filename = './wordlogs/' + m.chat.chatid + '.log',
+      format = '%(message)s')
+   # Ignores messages that start with links or are just links
+   if m.text.split(':')[0] not in ['http', 'https']:
+      logging.info(m.text)
 
 
 # Function to populate top posts of a given subreddit
@@ -118,6 +138,14 @@ def to_regex (words, beg='', end=''):
    regex = ''.join([regex, ')(', end, ')$'])
    return regex
 
+
+# Probability function, ie, 1:100, etc.
+def prob (x, y):
+   rand = random.randint(1, y)
+   if x <= rand:
+      return True
+   else:
+      return False
 
 """
 Command definitions and listeners.
@@ -318,9 +346,10 @@ def send_rights (m):
 # Prints available json to the console.
 @bot.message_handler(commands=['test'])
 def print_json (m):
-   print(CON['log'], 'info:', m.__dict__)
-   print(CON['log'], 'from:', m.from_user.__dict__)
-   print(CON['log'], 'chat:', m.chat.__dict__)
+   if m.from_user.username == "rekyuu":
+      print(CON['log'], 'info:', m.__dict__)
+      print(CON['log'], 'from_user:', m.from_user.__dict__)
+      print(CON['log'], 'chat:', m.chat.__dict__)
 
 
 """
@@ -354,10 +383,33 @@ last_msg = ''
 def send_tweet (m):
    global last_msg
 
+   # Logs incoming messages to a file
+   word_log(m)
+
+   # 1:20 chance of firing a markov chain message
+   if prob(1,20):
+      file_ = open('./wordlogs/' + m.chat.chatid + '.log', encoding='utf8')
+
+      # Will file once the log reaches 100 lines or more
+      if len(file_.read().splitlines()) >= 100:
+         word_count, msg_total = 0
+         for line in file_.read().splitlines():
+            word_count += int(len(line.split()))
+            msg_total += 1
+         word_avg = word_count / msg_total
+         
+         markov = Markov(file_)
+         out = markov.generate_markov_text(word_avg + random.randint(0,5))
+
+         bot.send_message(m.chat.id, out)
+         print(CON['msg'], out)
+      file_.close()
+
+   # Really simple and lazy spam protection
    if last_msg != m.text:
       last_msg = m.text
-      prob = random.randint(1,100)
-      if prob <= 1:
+      # 1:100 chance to tweet the last message recieved
+      if prob(1,100) == True:
          t.statuses.update(status=m.text)
          bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
          print(CON['twt'], "Sent tweet:", m.text)
