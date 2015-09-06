@@ -152,7 +152,7 @@ def to_regex (words, beg='', end=''):
 # Probability function, ie, 1:100, etc.
 def prob (x, y):
    rand = random.randint(1, y)
-   if x <= rand:
+   if y <= x:
       return True
    else:
       return False
