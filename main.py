@@ -51,11 +51,12 @@ def word_log (m):
    if not os.path.exists('./wordlogs'):
       os.makedirs('./wordlogs')
    try:
-      open('./wordlogs/' + str(m.chat.id) + '.log', 'a+', encoding='utf8')
+      log = open('./wordlogs/' + str(m.chat.id) + '.log', 'a+', encoding='utf8')
    except:
       print(CON['err'], 'Log file does not exist. Creating.')
-      open('./wordlogs/' + str(m.chat.id) + '.log', 'w', encoding='utf8')
+      log = open('./wordlogs/' + str(m.chat.id) + '.log', 'w', encoding='utf8')
    finally:
+      log.close()
       logging.basicConfig(
          filename = './wordlogs/' + str(m.chat.id) + '.log',
          filemode = 'a+',
