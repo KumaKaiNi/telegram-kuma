@@ -1,0 +1,13 @@
+{
+   "auth": {
+      "telegram": {
+         "api_key": ""
+      },
+      "twitter": {
+         "access_key": "",
+         "access_key_secret": "",
+         "consumer_key": "",
+         "consumer_key_secret": ""
+      }
+   }
+}

@@ -1,6 +1,7 @@
 # Sensitive info
 src/helpers/auth.py
 src/__cache__
+src/config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

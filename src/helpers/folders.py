@@ -1,3 +1,5 @@
+import json
+
 FOLDER = './__cache__/'
 CACHE = {
    'img': FOLDER + 'img/',
