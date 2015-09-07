@@ -12,6 +12,7 @@ try:
    users = config['auth']['webui']
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
+   raise
 
 file_.close()
 
