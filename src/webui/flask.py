@@ -6,4 +6,4 @@ def hello ():
    return "Hello, kuma!"
 
 if __name__ == "__main__":
-   app.run(port = 5268, debug = True)
+   app.run(port = 5268, debug = True, threaded = True)
