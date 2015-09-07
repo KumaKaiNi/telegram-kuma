@@ -218,7 +218,7 @@ Regex listeners.
 # Returns a greeting if a user starts a sentence with the following regex.
 GREETS = ['hi', 'hello', 'yo', 'sup']
 GREET_REPLIES = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
-@bot.message_handler(regexp=to_regex(GREETS,'','()|( ).*'))
+@bot.message_handler(regexp=helpers.to_regex(GREETS,'','()|( ).*'))
 def send_hello (m):
    out = GREET_REPLIES[random.randint(0, len(GREET_REPLIES) - 1)]
    bot.send_message(m.chat.id, out)
@@ -228,7 +228,7 @@ def send_hello (m):
 # Replies to thank you's.
 THANKS = ['thank you kuma', 'thanks kuma', 'ty kuma']
 TY_REPLIES = ['np', 'don\'t mention it', 'anytime', 'sure thing', 'ye whateva']
-@bot.message_handler(regexp=to_regex(THANKS))
+@bot.message_handler(regexp=helpers.to_regex(THANKS))
 def send_thanks (m):
    out = TY_REPLIES[random.randint(0, len(TY_REPLIES) - 1)]
    bot.send_message(m.chat.id, out)
