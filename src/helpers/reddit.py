@@ -62,13 +62,15 @@ def send_sub_image (msg, name):
             print(CON['err'], "Not an image. Deleting entry and trying again.")
             del data['posts'][rand]
             if len(data['posts']) == 0:
-               get_top_posts(sub)
+               get_top_posts(name)
          else:
             # Downloads the image.
-            urllib.request.urlretrieve(dl, filename)
+            if not os.path.exists('./tmp'):
+               os.makedirs('./tmp')
+            urllib.request.urlretrieve(dl, './tmp/' + filename)
 
             # Sends the downloaded image and the title.
-            photo = open(filename, 'rb')
+            photo = open('./tmp/' + filename, 'rb')
             out = str(data['posts'][rand]['title'])
             bot.send_photo(msg.chat.id, photo)
             print(CON['img'], filename)
@@ -89,4 +91,4 @@ def send_sub_image (msg, name):
          print(CON['err'], "Error downloading image. Trying again.")
          del data['posts'][rand]
          if len(data['posts']) == 0:
-            get_top_posts(sub)
+            get_top_posts(name)
