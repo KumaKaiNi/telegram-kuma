@@ -1,7 +1,8 @@
 import random, telebot, time
 from twitter import *
-from helpers import auth, helpers, logger, markov, reddit
+from helpers import auth, folders, helpers, logger, markov, reddit
 
+CACHE = folders.CACHE
 CON = logger.CON
 
 """
@@ -246,7 +247,7 @@ def all_other_messages (m):
 
    # 1:20 chance of firing a markov chain message
    if helpers.prob(1,20) == True:
-      file_ = open('./wordlogs/' + str(m.chat.id) + '.log', encoding='utf8')
+      file_ = open(CACHE['wordlogs'] + str(m.chat.id) + '.log', encoding='utf8')
 
       # Will file once the log reaches 100 lines or more
       if len(file_.read().splitlines()) >= 100:
