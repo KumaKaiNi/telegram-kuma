@@ -79,12 +79,14 @@ def get_top_posts (name):
 # Function that sends the image
 IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
 def send_sub_image (msg, name):
-   try:
-      conf = open('./subreddits/' + name + '.json', encoding='utf8')
-      data = json.loads(conf.read())
-      conf.close()
-   except:
-      print(CON['err'], "List has not been created. Creating.")
+   while True:
+      try:
+         conf = open('./subreddits/' + name + '.json', encoding='utf8')
+         data = json.loads(conf.read())
+         conf.close()
+         break
+      except:
+         print(CON['err'], "List has not been created. Creating.")
 
    # Checks freshness of posts.
    if dt.now() - dt.strptime(data['time'], '%Y-%m-%d %H:%M:%S.%f') >= datetime.timedelta(days=1):
