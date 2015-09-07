@@ -253,17 +253,12 @@ def send_meme (m):
 # Anti-Wayne command
 @bot.message_handler(commands=['dank', 'kush', 'pot', 'merrywanna'])
 def send_dank (m):
-   try:
-      name = m.from_user.username
-   except:
+   name = m.from_user.username
+   if name is None:
       name = m.from_user.first_name
-   finally:
-      if str(name) == 'None':
-         out = ''.join(['Shut the fuck up'])
-      else:
-         out = ''.join(['Shut the fuck up, @', str(name)])
-      bot.send_message(m.chat.id, out)
-      print(CON['msg'], out)
+   out = ''.join(['Shut the fuck up, @', str(name)])
+   bot.send_message(m.chat.id, out)
+   print(CON['msg'], out)
 
 
 # Sends the user a prediction.
