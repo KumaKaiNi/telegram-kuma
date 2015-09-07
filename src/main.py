@@ -9,9 +9,6 @@ Worker definitions
 def core_worker():
    from core import kuma
 
-def webui_worker():
-   app.run(port = 5268, debug = True)
-
 
 """
 Flask settings
@@ -24,4 +21,4 @@ def hello ():
 
 if __name__ == '__main__':
    threading.Thread(target = core_worker).start()
-   threading.Thread(target = webui_worker).start()
+   app.run(port = 5268, debug = True)
