@@ -78,39 +78,39 @@ def get_top_posts (name):
 
 # Function that sends the image
 IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
-def send_sub_image (msg, sub, list_name, time_got):
+def send_sub_image (msg, name):
+   try:
+      conf = open('./subreddits/' + name + '.json', encoding='utf8').read()
+      data = json.loads(conf)
+   except:
+      print(CON['err'], "List has not been created. Creating.")
 
-   # Checks to make sure there is a listing.
-   if len(list_name) == 0:
-      print(CON['log'], "Nothing in list! Repopulating.")
-      get_top_posts(sub, list_name, time_got)
    # Checks freshness of posts.
-   elif dt.now() - time_got >= datetime.timedelta(days=1):
+   if dt.now() - dt.strptime(data['time'], '%Y-%m-%d %H:%M:%S.%f') >= datetime.timedelta(days=1):
       print(CON['log'], "24 hours have past since last update!")
-      time_got = dt.now()
-      get_top_posts(sub, list_name, time_got)
+      get_top_posts(name)
 
    # Chooses a random listing and downloads the image.
    while True:
       try:
          rand = random.randint(0, len(list_name) - 1)
-         dl = str(list_name[rand]['url']).split("'")[1]
+         dl = data['posts'][rand]['url']
          filename = dl.split('/')[-1]
          print(CON['log'], "Downloading", filename + "...")
 
          if filename.split('.')[-1] not in IMAGE_TYPES:
             # If the file is not an image, it will try again.
             print(CON['err'], "Not an image. Deleting entry and trying again.")
-            del list_name[rand]
-            if len(list_name) == 0:
-               get_top_posts(sub, list_name, time_got)
+            del data['posts'][rand]
+            if len(data['posts']) == 0:
+               get_top_posts(sub)
          else:
             # Downloads the image.
             urllib.request.urlretrieve(dl, filename)
 
             # Sends the downloaded image and the title.
             photo = open(filename, 'rb')
-            out = str(list_name[rand]['title']).split("'")[1]
+            out = str(data['posts'][rand]['title'])
             bot.send_photo(msg.chat.id, photo)
             print(CON['img'], filename)
 
@@ -120,13 +120,15 @@ def send_sub_image (msg, sub, list_name, time_got):
             # Closes the photo and removes it from the system.
             photo.close()
             os.remove(filename)
-            del list_name[rand]
+            del data['posts'][rand]
+            json.dump(data, conf, ensure_ascii=False)
+            conf.close()
             break
       except HTTPError:
          print(CON['err'], "Error downloading image. Trying again.")
-         del list_name[rand]
-         if len(list_name) == 0:
-            get_top_posts(sub, list_name, time_got)
+         del data['posts'][rand]
+         if len(data['posts']) == 0:
+            get_top_posts(sub)
 
 
 # Regex function
@@ -359,7 +361,7 @@ def print_json (m):
 # Prints available json to the console.
 @bot.message_handler(commands=['test'])
 def testing_function (m):
-   get_top_posts('warshipporn')
+   send_sub_image(m, 'warshipporn')
 
 
 """
