@@ -262,8 +262,8 @@ def all_other_messages (m):
 
          bot.send_message(m.chat.id, out)
          print(CON['msg'], out)
-         t.statuses.update(status=out + ' *Kuma Kai Ni')
-         print(CON['twt'], out + ' *Kuma Kai Ni')
+         t.statuses.update(status=out + ' *KumaKaiNi')
+         print(CON['twt'], out + ' *KumaKaiNi')
       file_.close()
 
    # Really simple and lazy spam protection
