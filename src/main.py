@@ -20,5 +20,5 @@ def hello ():
 
 
 if __name__ == '__main__':
-   app.run(port = 5268, debug = True)
    threading.Thread(target = core_worker).start()
+   app.run(port = 5268, debug = True, threaded = True)
