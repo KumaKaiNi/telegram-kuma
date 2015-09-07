@@ -250,7 +250,8 @@ def all_other_messages (m):
 
       # Will file once the log reaches 100 lines or more
       if len(file_.read().splitlines()) >= 100:
-         word_count, msg_total = 0
+         word_count = 0
+         msg_total = 0
          for line in file_.read().splitlines():
             word_count += int(len(line.split()))
             msg_total += 1
