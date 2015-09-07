@@ -87,7 +87,7 @@ def clean (context=None):
 
 @app.route('/wordlog/<context>')
 @auth.login_required
-def index (context=None):
+def wordlog (context=None):
    return render_template('index.html', context = send_to_index())
 
 
