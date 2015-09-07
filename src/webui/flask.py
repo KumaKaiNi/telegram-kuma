@@ -9,11 +9,9 @@ CON = logger.CON
 try:
    file_ = open('./config.json', encoding='utf8')
    config = json.loads(file_.read())
-   auth = config['auth']
+   users = config['auth']['webui']
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
-
-users = auth['webui']
 
 file_.close()
 
