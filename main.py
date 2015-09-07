@@ -80,8 +80,8 @@ def get_top_posts (name):
 IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
 def send_sub_image (msg, name):
    try:
-      conf = open('./subreddits/' + name + '.json', encoding='utf8').read()
-      data = json.loads(conf)
+      conf = open('./subreddits/' + name + '.json', encoding='utf8')
+      data = json.loads(conf.read())
    except:
       print(CON['err'], "List has not been created. Creating.")
 
