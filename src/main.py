@@ -9,21 +9,12 @@ def core_worker():
    print("Core worker thread started.")
    return
 
-
 def test_worker():
    print("Test worker thread started.")
    return
 
 
-threads = [
-   threading.Thread(target = core_worker),
-   threading.Thread(target = test_worker),
-]
-
-
 if __name__ == '__main__':
 
-   i = 0
-   for thread in threads:
-      thread[i].start()
-      i += 1
+   threading.Thread(target = core_worker).start()
+   threading.Thread(target = test_worker).start()
