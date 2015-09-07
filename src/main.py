@@ -1,6 +1,6 @@
 import auth, logging, random, telebot
 from twitter import *
-from helpers import *
+from helpers import helpers, logger, markov, reddit
 
 CON = logger.CON
 
