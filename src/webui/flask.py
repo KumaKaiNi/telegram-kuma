@@ -36,7 +36,7 @@ def send_to_index ():
       'subreddits': [
          {
             'title': 'warshipporn',
-            'generated': 'datecontext',
+            'date': 'datecontext',
             'posts': 25
          }
       ],

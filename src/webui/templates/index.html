@@ -38,26 +38,15 @@
             <h2>Subreddits</h2>
 
             <div class="row">
-               <div class="col-1-3">
-                  <h3>warshipporn</h3>
-                  <p>Generated 2015-09-06 23:18:42.942305.</p>
-                  <p>25 posts remaining.</p>
-                  <button>Clear</button>
-               </div>
 
-               <div class="col-1-3">
-                  <h3>tankporn</h3>
-                  <p>Generated 2015-09-06 23:18:42.942305.</p>
-                  <p>25 posts remaining.</p>
-                  <button>Clear</button>
-               </div>
-
-               <div class="col-1-3">
-                  <h3>foodporn</h3>
-                  <p>Generated 2015-09-06 23:18:42.942305.</p>
-                  <p>25 posts remaining.</p>
-                  <button>Clear</button>
-               </div>
+               {% for item in context['subreddits'] %}
+                  <div class="col-1-3">
+                     <h3>{{ item['title'] }}</h3>
+                     <p>Generated {{ item['date'] }}</p>
+                     <p>{{ item['posts'] }} posts remaining.</p>
+                     <button>Clear</button>
+                  </div>
+               {% endfor %}
 
             </div>
 
