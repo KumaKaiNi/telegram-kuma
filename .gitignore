@@ -1,8 +1,6 @@
 # Sensitive info
 src/helpers/auth.py
-src/wordlogs
-src/tmp
-src/subreddits
+src/__cache__
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
