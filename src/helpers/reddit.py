@@ -81,7 +81,7 @@ def send_sub_image (msg, name):
 
             # Closes the photo and removes it from the system.
             photo.close()
-            os.remove(filename)
+            os.remove('./tmp/' + filename)
             del data['posts'][rand]
 
             conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
