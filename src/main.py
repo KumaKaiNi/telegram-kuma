@@ -249,7 +249,7 @@ def all_other_messages (m):
    if helpers.prob(1,1) == True:
       file_ = open(CACHE['wordlogs'] + str(m.chat.id) + '.log', encoding='utf8')
       print(CACHE['wordlogs'] + str(m.chat.id) + '.log')
-      print(file_.read())
+      print(file_.read().splitlines())
       # Will file once the log reaches 100 lines or more
       if len(file_.read().splitlines()) >= 100:
          word_count = 0
