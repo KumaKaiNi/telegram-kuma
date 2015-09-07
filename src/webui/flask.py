@@ -1,5 +1,5 @@
 import json
-from flask import Flask
+from flask import Flask, render_template
 from flask_httpauth import HTTPBasicAuth
 from helpers import logger
 
@@ -13,7 +13,6 @@ try:
    users = config['auth']['webui']
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
-
 file_.close()
 
 @auth.get_password
@@ -26,7 +25,7 @@ def get_pw (username):
 @app.route('/')
 @auth.login_required
 def index ():
-   return "Hello, %s!" % auth.username()
+   return render_template('index.html')
 
 
 app.run(port = 5268, debug = False, threaded = True)
