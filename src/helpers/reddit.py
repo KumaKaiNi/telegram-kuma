@@ -1,6 +1,6 @@
 import datetime, json, os, praw, random, telebot, urllib.request
 from helpers import logger
-from .. import auth
+from .... import auth
 
 bot = telebot.TeleBot(auth.Telegram.api_key)
 CON = logger.CON
