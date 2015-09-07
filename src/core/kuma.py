@@ -11,7 +11,8 @@ API and auth keys. Will be located in auth.py.
 """
 
 try:
-   config = json.loads(open('./config.json', encoding='utf8').read())
+   file_ = open('./config.json', encoding='utf8')
+   config = json.loads(file_.read())
    auth = config['auth']
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
@@ -28,6 +29,7 @@ t = Twitter(auth = OAuth(
    auth['twitter']['consumer_key_secret']
 ))
 
+file_.close()
 
 """
 Command definitions and listeners.
