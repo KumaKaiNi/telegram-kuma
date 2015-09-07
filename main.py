@@ -11,7 +11,6 @@ dt = datetime.datetime
 API and auth keys. Will be located in auth.py.
 """
 
-
 # Kuma-chan's unique ID.
 bot = telebot.TeleBot(auth.Telegram.api_key)
 
@@ -25,7 +24,6 @@ r = praw.Reddit(user_agent='Telegram:KumaKaiNi-Py:v1.0.0 (by @rekyuu_senkan)')
 """
 Helper functions and definitions.
 """
-
 
 # Logging definitions.
 CON = {
@@ -143,10 +141,10 @@ def prob (x, y):
    else:
       return False
 
+
 """
 Command definitions and listeners.
 """
-
 
 # List off commands.
 @bot.message_handler(commands=['help'])
@@ -352,7 +350,6 @@ def print_json (m):
 Regex listeners.
 """
 
-
 # Returns a greeting if a user starts a sentence with the following regex.
 GREETS = ['hi', 'hello', 'yo', 'sup']
 GREET_REPLIES = ['sup loser', 'yo', 'ay', 'go away', 'hi', 'wassup']
@@ -423,7 +420,6 @@ def all_other_messages (m):
 """
 Main command listener.
 """
-
 
 bot.polling(none_stop=True)
 print(CON['log'], 'Kuma! Shutsugeki suru, kuma!')
