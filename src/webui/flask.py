@@ -81,11 +81,11 @@ def index (context=None):
 
 @app.route('/clear/<context>')
 @auth.login_required
-def index (context=None):
+def clean (context=None):
    delete_subreddit(context)
    return redirect('/', code = 302)
 
-@app.route('/')
+@app.route('/wordlog/<context>')
 @auth.login_required
 def index (context=None):
    return render_template('index.html', context = send_to_index())
