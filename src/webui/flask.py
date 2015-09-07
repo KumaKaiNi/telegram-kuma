@@ -1,5 +1,5 @@
 import json, os
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template
 from flask_httpauth import HTTPBasicAuth
 from helpers import folders, logger
 
@@ -63,8 +63,27 @@ def send_to_index ():
 
 
 """
+Subreddit cleaning function
+"""
+
+def delete_subreddit (name):
+   os.remove(CACHE['subreddits'] + name + '.json')
+
+
+"""
 Routing
 """
+
+@app.route('/')
+@auth.login_required
+def index (context=None):
+   return render_template('index.html', context = send_to_index())
+
+@app.route('/clear/<context>')
+@auth.login_required
+def index (context=None):
+   delete_subreddit(context)
+   return redirect('/', code = 302)
 
 @app.route('/')
 @auth.login_required
