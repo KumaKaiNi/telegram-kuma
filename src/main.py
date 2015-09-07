@@ -17,7 +17,7 @@ def test_worker():
 
 threads = [
    threading.Thread(target = core_worker),
-   threading.Thread(target = test_worker,
+   threading.Thread(target = test_worker
 ]
 
 
