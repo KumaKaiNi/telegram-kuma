@@ -33,20 +33,22 @@ List preparations
 
 def send_to_index ():
    out = {
-      'subreddits': {
-         'warshipporn': {
+      'subreddits': [
+         {
             'title': 'warshipporn',
             'generated': 'datecontext',
             'posts': 25
          }
-      },
-      'wordlogs': {
-         '-22706117': {
+      ],
+      'wordlogs': [
+         {
             'title': '-22706117',
             'messages': 272
          }
-      }
+      ]
    }
+
+   return out
 
 
 """
@@ -55,8 +57,8 @@ Routing
 
 @app.route('/')
 @auth.login_required
-def index ():
-   return render_template('index.html')
+def index (context=None):
+   return render_template('index.html', context = send_to_index())
 
 
 """
