@@ -7,6 +7,11 @@ app = Flask(__name__)
 auth = HTTPBasicAuth()
 CON = logger.CON
 
+
+"""
+Authentication
+"""
+
 try:
    file_ = open('./config.json', encoding='utf8')
    config = json.loads(file_.read())
@@ -22,10 +27,40 @@ def get_pw (username):
    return None
 
 
+"""
+List preparations
+"""
+
+def send_to_index ():
+   out = {
+      'subreddits': {
+         'warshipporn': {
+            'title': 'warshipporn',
+            'generated': 'datecontext',
+            'posts': 25
+         }
+      },
+      'wordlogs': {
+         '-22706117': {
+            'title': '-22706117',
+            'messages': 272
+         }
+      }
+   }
+
+
+"""
+Routing
+"""
+
 @app.route('/')
 @auth.login_required
 def index ():
    return render_template('index.html')
 
+
+"""
+Run the server
+"""
 
 app.run(port = 5268, debug = False, threaded = True)
