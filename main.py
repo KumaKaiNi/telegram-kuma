@@ -93,7 +93,7 @@ def send_sub_image (msg, name):
    # Chooses a random listing and downloads the image.
    while True:
       try:
-         rand = random.randint(0, len(list_name) - 1)
+         rand = random.randint(0, len(data['posts']) - 1)
          dl = data['posts'][rand]['url']
          filename = dl.split('/')[-1]
          print(CON['log'], "Downloading", filename + "...")
