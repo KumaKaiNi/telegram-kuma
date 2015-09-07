@@ -34,7 +34,7 @@ CON = {
    'twt': ''.join(['[', Fore.CYAN,   'TWT', Fore.RESET, ']']),
 }
 
-
+# Logs all words to a file for later use with Markov.
 def word_log (m):
    if not os.path.exists('./wordlogs'):
       os.makedirs('./wordlogs')
