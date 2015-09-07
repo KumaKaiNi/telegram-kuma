@@ -1,7 +1,5 @@
 import threading, time
 
-from webui import flask
-
 
 def core_worker():
    from core import kuma
