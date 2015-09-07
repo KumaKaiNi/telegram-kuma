@@ -66,8 +66,8 @@ def get_top_posts (name):
    print(CON['log'], "Populating list...")
    pid = 0
    for post in sub.get_hot(limit=25):
-      url = str(post.url.decode("utf-8"))
-      title = str(post.title.decode("utf-8"))
+      url = post.url
+      title = post.title
       data['posts'].append({'pid': pid, 'title': title, 'url': url})
       pid += 1
    json.dump(data, conf, ensure_ascii=False)
