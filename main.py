@@ -257,7 +257,7 @@ def send_dank (m):
       name = m.from_user.username
    except:
       name = m.from_user.first_name
-   out = ''.join(['Shut the fuck up, @', name])
+   out = ''.join(['Shut the fuck up, @', str(name)])
    bot.send_message(m.chat.id, out)
    print(CON['msg'], out)
 
