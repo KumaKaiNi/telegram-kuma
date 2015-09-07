@@ -8,5 +8,5 @@ def core_worker():
 
 if __name__ == '__main__':
 
-   threading.Thread(target = core_worker).start()
    flask.app.run(port = 5268, debug = True, threaded = True)
+   threading.Thread(target = core_worker).start()
