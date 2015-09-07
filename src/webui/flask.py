@@ -78,6 +78,7 @@ def display_wordlog (name):
 
    return data
 
+
 """
 Routing
 """
