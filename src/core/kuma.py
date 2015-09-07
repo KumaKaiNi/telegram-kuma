@@ -1,4 +1,4 @@
-import random, telebot, time
+import json, random, telebot, time
 from twitter import *
 from helpers import auth, folders, helpers, logger, markov, reddit
 
