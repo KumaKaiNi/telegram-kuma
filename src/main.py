@@ -246,17 +246,15 @@ def all_other_messages (m):
    logger.word_log(m)
 
    # 1:20 chance of firing a markov chain message
-   if helpers.prob(1,20) == True:
+   if helpers.prob(1,1) == True:
       file_ = open(CACHE['wordlogs'] + str(m.chat.id) + '.log', encoding='utf8')
 
       # Will file once the log reaches 100 lines or more
       if len(file_.read().splitlines()) >= 100:
          word_count = 0
-         msg_total = 0
          for line in file_.read().splitlines():
             word_count += int(len(line.split()))
-            msg_total += 1
-         word_avg = word_count / msg_total
+         word_avg = word_count / len(file_.read().splitlines())
 
          markov = markov.Markov(file_)
          out = markov.generate_markov_text(word_avg + random.randint(0,5))
