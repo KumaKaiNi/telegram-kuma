@@ -73,6 +73,8 @@ def get_top_posts (name):
    json.dump(data, conf, ensure_ascii=False)
    print(CON['log'], "List populated!")
 
+   conf.close()
+
 
 # Function that sends the image
 IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
