@@ -15,6 +15,7 @@ try:
    auth = config['auth']
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
+   raise
 
 # Kuma-chan's unique ID.
 bot = telebot.TeleBot(auth['telegram']['api_key'])
