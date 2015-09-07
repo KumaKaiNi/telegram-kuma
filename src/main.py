@@ -1,11 +1,8 @@
-import auth, datetime, json, logging, os, praw, random, telebot, time, urllib.request
-from colorama import init, Fore
-from markov import Markov
+import auth, logging, random, telebot
 from twitter import *
+from helpers import *
 
-init()
-dt = datetime.datetime
-
+CON = logger.CON
 
 """
 API and auth keys. Will be located in auth.py.
@@ -16,148 +13,6 @@ bot = telebot.TeleBot(auth.Telegram.api_key)
 
 # Kuma-chan's twitter, @KumaKaiNi.
 t = Twitter(auth = OAuth(auth.TwitterAuth.access_key, auth.TwitterAuth.access_key_secret, auth.TwitterAuth.consumer_key, auth.TwitterAuth.consumer_key_secret))
-
-# Reddit stuff.
-r = praw.Reddit(user_agent='Telegram:KumaKaiNi-Py:v1.0.0 (by @rekyuu_senkan)')
-
-
-"""
-Helper functions and definitions.
-"""
-
-# Logging definitions.
-CON = {
-   'log': ''.join(['[', Fore.YELLOW, 'LOG', Fore.RESET, ']']),
-   'err': ''.join(['[', Fore.RED,    'ERR', Fore.RESET, ']']),
-   'img': ''.join(['[', Fore.GREEN,  'IMG', Fore.RESET, ']']),
-   'msg': ''.join(['[', Fore.GREEN,  'MSG', Fore.RESET, ']']),
-   'twt': ''.join(['[', Fore.CYAN,   'TWT', Fore.RESET, ']']),
-}
-
-# Logs all words to a file for later use with Markov.
-def word_log (m):
-   if not os.path.exists('./wordlogs'):
-      os.makedirs('./wordlogs')
-   try:
-      log = open('./wordlogs/' + str(m.chat.id) + '.log', 'a+', encoding='utf8')
-   except:
-      print(CON['err'], 'Log file does not exist. Creating.')
-      log = open('./wordlogs/' + str(m.chat.id) + '.log', 'w', encoding='utf8')
-   finally:
-      # Ignores messages that start with links or are just links
-      if m.text.split(':')[0] not in ['http', 'https']:
-         log.write(m.text + '\n')
-      log.close()
-
-
-# Function to populate top posts of a given subreddit
-def get_top_posts (name):
-
-   if not os.path.exists('./subreddits'):
-      os.makedirs('./subreddits')
-   conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
-
-   data = {}
-   data['time'] = str(dt.now())
-   data['posts'] = []
-
-   sub = r.get_subreddit(name)
-
-   print(CON['log'], "Populating list...")
-   pid = 0
-   for post in sub.get_hot(limit=25):
-      url = post.url
-      title = post.title
-      data['posts'].append({'pid': pid, 'title': title, 'url': url})
-      pid += 1
-   json.dump(data, conf, ensure_ascii=False)
-   print(CON['log'], "List populated!")
-
-   conf.close()
-
-
-# Function that sends the image
-IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
-def send_sub_image (msg, name):
-   while True:
-      try:
-         conf = open('./subreddits/' + name + '.json', encoding='utf8')
-         data = json.loads(conf.read())
-         conf.close()
-         break
-      except:
-         print(CON['err'], "List has not been created. Creating.")
-         get_top_posts(name)
-
-   # Checks freshness of posts.
-   if dt.now() - dt.strptime(data['time'], '%Y-%m-%d %H:%M:%S.%f') >= datetime.timedelta(days=1):
-      print(CON['log'], "24 hours have past since last update!")
-      get_top_posts(name)
-
-   # Chooses a random listing and downloads the image.
-   while True:
-      try:
-         rand = random.randint(0, len(data['posts']) - 1)
-         dl = data['posts'][rand]['url']
-         filename = dl.split('/')[-1]
-         print(CON['log'], "Downloading", filename + "...")
-
-         if filename.split('.')[-1] not in IMAGE_TYPES:
-            # If the file is not an image, it will try again.
-            print(CON['err'], "Not an image. Deleting entry and trying again.")
-            del data['posts'][rand]
-            if len(data['posts']) == 0:
-               get_top_posts(sub)
-         else:
-            # Downloads the image.
-            urllib.request.urlretrieve(dl, filename)
-
-            # Sends the downloaded image and the title.
-            photo = open(filename, 'rb')
-            out = str(data['posts'][rand]['title'])
-            bot.send_photo(msg.chat.id, photo)
-            print(CON['img'], filename)
-
-            bot.send_message(msg.chat.id, out)
-            print(CON['msg'], out)
-
-            # Closes the photo and removes it from the system.
-            photo.close()
-            os.remove(filename)
-            del data['posts'][rand]
-
-            conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
-            json.dump(data, conf, ensure_ascii=False)
-            conf.close()
-            break
-      except:
-         print(CON['err'], "Error downloading image. Trying again.")
-         del data['posts'][rand]
-         if len(data['posts']) == 0:
-            get_top_posts(sub)
-
-
-# Regex function
-def to_regex (words, beg='', end=''):
-   regex = ''.join(['^(', beg, ')('])
-   for word in words:
-      regex += '('
-      letters = list(word)
-      for letter in letters:
-         regex = ''.join([regex, '(', letter.upper(), '|', letter.lower(), ')'])
-      regex += ')|'
-   regex = regex[:-1]
-   regex = ''.join([regex, ')(', end, ')$'])
-   return regex
-
-
-# Probability function, ie, 1:100, etc.
-def prob (x, y):
-   rand = random.randint(1, y)
-   if rand <= x:
-      return True
-   else:
-      return False
 
 
 """
@@ -235,19 +90,19 @@ def add_num (m):
 # Sends the user a boat!
 @bot.message_handler(commands=['ship'])
 def send_boat (m):
-   send_sub_image (m, 'warshipporn')
+   reddit.send_sub_image (m, 'warshipporn')
 
 
 # Sends the user a tank!
 @bot.message_handler(commands=['tank'])
 def send_tonk (m):
-   send_sub_image (m, 'tankporn')
+   reddit.send_sub_image (m, 'tankporn')
 
 
 # Sends the user a meme!
 @bot.message_handler(commands=['meme'])
 def send_meme (m):
-   send_sub_image (m, 'foodporn')
+   reddit.send_sub_image (m, 'foodporn')
 
 
 # Anti-Wayne command
@@ -353,7 +208,7 @@ def print_json (m):
 # Prints available json to the console.
 @bot.message_handler(commands=['test'])
 def testing_function (m):
-   send_sub_image (m, 'warshipporn')
+   reddit.send_sub_image (m, 'warshipporn')
 
 
 """
@@ -387,7 +242,7 @@ def all_other_messages (m):
    global last_msg
 
    # Logs incoming messages to a file
-   word_log(m)
+   logger.word_log(m)
 
    # 1:20 chance of firing a markov chain message
    if prob(1,20) == True:
@@ -401,7 +256,7 @@ def all_other_messages (m):
             msg_total += 1
          word_avg = word_count / msg_total
 
-         markov = Markov(file_)
+         markov = markov.Markov(file_)
          out = markov.generate_markov_text(word_avg + random.randint(0,5))
 
          bot.send_message(m.chat.id, out)
