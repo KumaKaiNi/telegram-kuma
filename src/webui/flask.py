@@ -33,23 +33,6 @@ List preparations
 """
 
 def send_to_index ():
-   """
-   out = {
-      'subreddits': [
-         {
-            'title': 'warshipporn',
-            'date': 'datecontext',
-            'posts': 25
-         }
-      ],
-      'wordlogs': [
-         {
-            'title': '-22706117',
-            'messages': 272
-         }
-      ]
-   }
-   """
    out = {}
 
    out['subreddits'] = []
