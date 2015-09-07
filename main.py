@@ -154,7 +154,7 @@ def to_regex (words, beg='', end=''):
 # Probability function, ie, 1:100, etc.
 def prob (x, y):
    rand = random.randint(1, y)
-   if y <= x:
+   if rand <= x:
       return True
    else:
       return False
