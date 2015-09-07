@@ -1,5 +1,5 @@
 # Sensitive info
-src/auth.py
+src/helpers/auth.py
 src/wordlogs
 src/tmp
 src/subreddits
