@@ -252,10 +252,11 @@ def all_other_messages (m):
       # Will file once the log reaches 100 lines or more
       if len(file_.read().splitlines()) >= 100:
          word_count = 0
+         print('msgs:', len(file_.read().splitlines()))
+         print('words:', word_count)
          for line in file_.read().splitlines():
             word_count += int(len(line.split()))
             print('words:', word_count)
-         print('msgs:', len(file_.read().splitlines()))
          word_avg = word_count / len(file_.read().splitlines())
 
          markov = markov.Markov(file_)
