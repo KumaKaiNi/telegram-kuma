@@ -63,12 +63,18 @@ def send_to_index ():
 
 
 """
-Subreddit cleaning function
+Control panel functions
 """
 
+# Cleans a subreddit json
 def delete_subreddit (name):
    os.remove(CACHE['subreddits'] + name + '.json')
 
+# Displays wordlog file
+def display_wordlog (name):
+   file_ = open(CACHE['wordlogs'] + name + '.log')
+   data = file_.read()
+   return data
 
 """
 Routing
@@ -88,7 +94,7 @@ def clean (context=None):
 @app.route('/wordlog/<context>')
 @auth.login_required
 def wordlog (context=None):
-   return render_template('index.html', context = send_to_index())
+   return display_wordlog(context)
 
 
 """
