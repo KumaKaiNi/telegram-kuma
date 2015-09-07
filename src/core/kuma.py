@@ -28,8 +28,6 @@ t = Twitter(auth = OAuth(
    auth['twitter']['consumer_key_secret']
 ))
 
-config.close()
-
 
 """
 Command definitions and listeners.
