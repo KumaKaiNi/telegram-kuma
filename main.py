@@ -415,9 +415,8 @@ def all_other_messages (m):
       last_msg = m.text
       # 1:100 chance to tweet the last message recieved
       if prob(1,100) == True:
-         try:
-            name = m.from_user.username
-         except:
+         name = m.from_user.username
+         if name is None:
             name = m.from_user.first_name
          out = m.text + ' *' + name
          t.statuses.update(status=out)
