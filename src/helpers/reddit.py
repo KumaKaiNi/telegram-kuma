@@ -1,17 +1,20 @@
 import datetime, json, os, praw, random, telebot, urllib.request
-from helpers import auth, logger
+from helpers import auth, folders, logger
 
 bot = telebot.TeleBot(auth.Telegram.api_key)
+
+CACHE = folders.CACHE
 CON = logger.CON
+
 dt = datetime.datetime
 r = praw.Reddit(user_agent='Telegram:KumaKaiNi-Py:v1.0.0 (by @rekyuu_senkan)')
 
 # Function to populate top posts of a given subreddit
 def get_top_posts (name):
 
-   if not os.path.exists('./subreddits'):
-      os.makedirs('./subreddits')
-   conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
+   if not os.path.exists(CACHE['subreddits']):
+      os.makedirs(CACHE['subreddits'])
+   conf = open(CACHE['subreddits'] + name + '.json', 'w', encoding='utf8')
 
    data = {}
    data['time'] = str(dt.now())
@@ -37,7 +40,7 @@ IMAGE_TYPES = ['jpg', 'jpeg', 'gif', 'png']
 def send_sub_image (msg, name):
    while True:
       try:
-         conf = open('./subreddits/' + name + '.json', encoding='utf8')
+         conf = open(CACHE['subreddits'] + name + '.json', encoding='utf8')
          data = json.loads(conf.read())
          conf.close()
          break
@@ -66,12 +69,12 @@ def send_sub_image (msg, name):
                get_top_posts(name)
          else:
             # Downloads the image.
-            if not os.path.exists('./tmp'):
-               os.makedirs('./tmp')
-            urllib.request.urlretrieve(dl, './tmp/' + filename)
+            if not os.path.exists(CACHE['img']):
+               os.makedirs(CACHE['img'])
+            urllib.request.urlretrieve(dl, CACHE['img'] + filename)
 
             # Sends the downloaded image and the title.
-            photo = open('./tmp/' + filename, 'rb')
+            photo = open(CACHE['img'] + filename, 'rb')
             out = str(data['posts'][rand]['title'])
             bot.send_photo(msg.chat.id, photo)
             print(CON['img'], filename)
@@ -81,15 +84,18 @@ def send_sub_image (msg, name):
 
             # Closes the photo and removes it from the system.
             photo.close()
-            os.remove('./tmp/' + filename)
+            os.remove(CACHE['img'] + filename)
             del data['posts'][rand]
 
-            conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
+            conf = open(CACHE['subreddits'] + name + '.json', 'w', encoding='utf8')
             json.dump(data, conf, ensure_ascii=False)
             conf.close()
             break
       except:
          print(CON['err'], "Error downloading image. Trying again.")
          del data['posts'][rand]
+         conf = open(CACHE['subreddits'] + name + '.json', 'w', encoding='utf8')
+         json.dump(data, conf, ensure_ascii=False)
+         conf.close()
          if len(data['posts']) == 0:
             get_top_posts(name)
