@@ -89,6 +89,7 @@ def send_sub_image (msg, name):
             break
       except:
          print(CON['err'], "Error downloading image. Trying again.")
+         raise
          del data['posts'][rand]
          if len(data['posts']) == 0:
             get_top_posts(name)
