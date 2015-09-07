@@ -1,10 +1,11 @@
-import json
+import json, os
 from flask import Flask, render_template
 from flask_httpauth import HTTPBasicAuth
-from helpers import logger
+from helpers import folders, logger
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
+CACHE = folders.CACHE
 CON = logger.CON
 
 
@@ -32,6 +33,7 @@ List preparations
 """
 
 def send_to_index ():
+   """
    out = {
       'subreddits': [
          {
@@ -47,6 +49,25 @@ def send_to_index ():
          }
       ]
    }
+   """
+   out = {}
+
+   out['subreddits'] = []
+   sub_dir = os.listdir(CACHE['subreddits'])
+   for item in sub_dir:
+      file_ = open(CACHE['subreddits'] + item)
+      data = json.loads(file_.read())
+      file_.close()
+
+      title = item.split('.')[0]
+      date = data['time']
+      posts = str(len(data['posts']))
+
+      out['subreddits'].append({'title': title, 'date': date, 'posts': posts})
+
+   out['wordlogs'] = []
+
+
 
    return out
 
