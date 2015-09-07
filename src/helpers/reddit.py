@@ -1,4 +1,5 @@
-import datetime, json, logger, os, praw, random, urllib.request
+import datetime, json, os, praw, random, urllib.request
+from helpers import logger
 
 CON = logger.CON
 dt = datetime.datetime
