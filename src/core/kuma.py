@@ -50,7 +50,7 @@ def send_help (m):
       + "/ship - posts an image from the top posts of r/warshipporn.\n"
       + "/tank - posts an image from the top posts of r/tankporn.\n"
       + "\n"
-      + "Just as a warning, there is a 1% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi\n"
+      + "Just as a warning, there is a 0.5% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi\n"
       + "\n"
       + "Source: https://github.com/rekyuu/telegram-kuma")
 
@@ -259,8 +259,8 @@ def all_other_messages (m):
    # Logs incoming messages to a file
    logger.word_log(m)
 
-   # 1% chance of firing a markov chain message
-   if helpers.prob(1,100) == True:
+   # 2% chance of firing a markov chain message
+   if helpers.prob(1,50) == True:
       file_ = open(CACHE['wordlogs'] + str(m.chat.id) + '.log', encoding='utf8')
       messages = file_.read().splitlines()
       # Will file once the log reaches 100 lines or more
