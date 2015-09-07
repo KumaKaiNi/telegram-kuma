@@ -1,5 +1,6 @@
-import datetime, json, os, praw, random, urllib.request
+import datetime, json, logger, os, praw, random, urllib.request
 
+CON = logger.CON
 dt = datetime.datetime
 r = praw.Reddit(user_agent='Telegram:KumaKaiNi-Py:v1.0.0 (by @rekyuu_senkan)')
 
