@@ -122,7 +122,7 @@ def send_sub_image (msg, name):
             photo.close()
             os.remove(filename)
             del data['posts'][rand]
-            
+
             conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
             json.dump(data, conf, ensure_ascii=False)
             conf.close()
@@ -230,33 +230,21 @@ def add_num (m):
 
 
 # Sends the user a boat!
-warships = []
-warships_got = dt.now()
 @bot.message_handler(commands=['ship'])
 def send_boat (m):
-   global warships
-   global warships_got
-   send_sub_image (m, 'warshipporn', warships, warships_got)
+   send_sub_image (m, 'warshipporn')
 
 
 # Sends the user a tank!
-tanks = []
-tanks_got = dt.now()
 @bot.message_handler(commands=['tank'])
 def send_tonk (m):
-   global tanks
-   global tanks_got
-   send_sub_image (m, 'tankporn', tanks, tanks_got)
+   send_sub_image (m, 'tankporn')
 
 
 # Sends the user a meme!
-memes = []
-memes_got = dt.now()
 @bot.message_handler(commands=['meme'])
 def send_meme (m):
-   global memes
-   global memes_got
-   send_sub_image (m, 'foodporn', memes, memes_got)
+   send_sub_image (m, 'foodporn')
 
 
 # Anti-Wayne command
@@ -364,7 +352,7 @@ def print_json (m):
 # Prints available json to the console.
 @bot.message_handler(commands=['test'])
 def testing_function (m):
-   send_sub_image(m, 'warshipporn')
+   send_sub_image (m, 'warshipporn')
 
 
 """
