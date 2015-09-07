@@ -262,8 +262,8 @@ def all_other_messages (m):
             print('total:', word_count)
          word_avg = word_count / len(messages)
 
-         markov = markov.Markov(file_)
-         out = markov.generate_markov_text(word_avg + random.randint(0,5))
+         mk = markov.Markov(file_)
+         out = mk.generate_markov_text(word_avg + random.randint(0,5))
 
          bot.send_message(m.chat.id, out)
          print(CON['msg'], out)
