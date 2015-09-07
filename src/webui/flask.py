@@ -66,8 +66,15 @@ def send_to_index ():
       out['subreddits'].append({'title': title, 'date': date, 'posts': posts})
 
    out['wordlogs'] = []
+   sub_dir = os.listdir(CACHE['wordlogs'])
+   for item in sub_dir:
+      file_ = open(CACHE['wordlogs'] + item)
+      messages = file_.read().splitlines()
+      title = item.split('.')[0]
+      messages = str(len(messages))
+      file_.close()
 
-
+      out['wordlogs'].append({'title': title, 'messages': messages})
 
    return out
 
