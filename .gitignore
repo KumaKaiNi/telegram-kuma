@@ -1,5 +1,4 @@
 # Sensitive info
-src/helpers/auth.py
 src/__cache__
 src/config.json
 
