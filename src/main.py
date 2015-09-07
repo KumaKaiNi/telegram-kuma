@@ -254,6 +254,8 @@ def all_other_messages (m):
          word_count = 0
          for line in file_.read().splitlines():
             word_count += int(len(line.split()))
+            print('words:', word_count)
+         print('msgs:', len(file_.read().splitlines()))
          word_avg = word_count / len(file_.read().splitlines())
 
          markov = markov.Markov(file_)
