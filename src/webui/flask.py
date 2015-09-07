@@ -95,8 +95,8 @@ def clean (subreddit=None):
 
 @app.route('/wordlog/<wordlog>')
 @auth.login_required
-def wordlog (messages=None):
-   return render_template('wordlog.html', messages = display_wordlog(wordlog))
+def wordlog (wordlog=None):
+   return render_template('wordlog.html', wordlog = display_wordlog(wordlog))
 
 
 """

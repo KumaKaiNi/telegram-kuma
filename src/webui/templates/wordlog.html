@@ -5,7 +5,7 @@
    <!-- Basic page needs-->
    <meta charset="utf-8">
    <title>Kuma Kai Ni Control Panel</title>
-   <meta name="description" content="Wordlog - {{ wordlog }}">
+   <meta name="description" content="Wordlog">
    <meta name="author" content="rekyuu">
 
    <!-- Mobile specific metas-->
@@ -35,9 +35,9 @@
       <div class="row">
 
          <div class="col-1-1">
-            <h2>Wordlog - {{ wordlog }}</h2>
+            <h2>Wordlog</h2>
 
-            {% for message in messages %}
+            {% for message in wordlog %}
                <p>{{ message }}</p>
             {% endfor %}
 
