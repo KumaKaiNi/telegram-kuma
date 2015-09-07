@@ -82,6 +82,7 @@ def send_sub_image (msg, name):
    try:
       conf = open('./subreddits/' + name + '.json', encoding='utf8')
       data = json.loads(conf.read())
+      conf.close()
    except:
       print(CON['err'], "List has not been created. Creating.")
 
@@ -121,10 +122,12 @@ def send_sub_image (msg, name):
             photo.close()
             os.remove(filename)
             del data['posts'][rand]
+            
+            conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
             json.dump(data, conf, ensure_ascii=False)
             conf.close()
             break
-      except HTTPError:
+      except:
          print(CON['err'], "Error downloading image. Trying again.")
          del data['posts'][rand]
          if len(data['posts']) == 0:
