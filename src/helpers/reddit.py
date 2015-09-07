@@ -1,6 +1,8 @@
-import datetime, json, os, praw, random, urllib.request
+import datetime, json, os, praw, random, telebot, urllib.request
 from helpers import logger
+from ... import auth
 
+bot = telebot.TeleBot(auth.Telegram.api_key)
 CON = logger.CON
 dt = datetime.datetime
 r = praw.Reddit(user_agent='Telegram:KumaKaiNi-Py:v1.0.0 (by @rekyuu_senkan)')
