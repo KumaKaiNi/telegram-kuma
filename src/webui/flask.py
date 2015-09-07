@@ -1,9 +1,10 @@
 from flask import Flask
 from flask_httpauth import HTTPBasicAuth
+from helpers import logger
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
-
+CON = logger.CON
 
 try:
    file_ = open('./config.json', encoding='utf8')
