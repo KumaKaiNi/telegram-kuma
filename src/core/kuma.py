@@ -11,7 +11,7 @@ API and auth keys. Will be located in auth.py.
 """
 
 try:
-   config = json.loads(open('./config.json', encoding='utf8').read())
+   config = json.loads(open('../config.json', encoding='utf8').read())
    auth = config['auth']
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
