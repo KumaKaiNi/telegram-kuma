@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <!-- Basic page needs-->
+   <meta charset="utf-8">
+   <title>Kuma Kai Ni Control Panel</title>
+   <meta name="description" content="Wordlog - {{ wordlog }}">
+   <meta name="author" content="rekyuu">
+
+   <!-- Mobile specific metas-->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <!-- Font-->
+   <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+   <!-- CSS-->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+   <!-- Favicon-->
+   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+</head>
+
+<body>
+   <div class="grid">
+
+      <div class="row">
+
+         <div class="col-1-1">
+            <h1>Kuma Kai Ni Control Panel</h1>
+         </div>
+
+      </div>
+
+      <div class="row">
+
+         <div class="col-1-1">
+            <h2>Wordlog - {{ wordlog }}</h2>
+
+            {% for message in messages %}
+               <p>{{ message }}</p>
+            {% endfor %}
+
+         </div>
+
+      </div>
+
+      <div class="row"></div>
+
+   </div>
+</body>
+
+</html>

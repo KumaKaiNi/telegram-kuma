@@ -73,7 +73,9 @@ def delete_subreddit (name):
 # Displays wordlog file
 def display_wordlog (name):
    file_ = open(CACHE['wordlogs'] + name + '.log')
-   data = file_.read()
+   data = file_.read().splitlines()
+   file_.close()
+
    return data
 
 """
@@ -85,16 +87,16 @@ Routing
 def index (context=None):
    return render_template('index.html', context = send_to_index())
 
-@app.route('/clear/<context>')
+@app.route('/clear/<subreddit>')
 @auth.login_required
-def clean (context=None):
-   delete_subreddit(context)
+def clean (subreddit=None):
+   delete_subreddit(subreddit)
    return redirect('/', code = 302)
 
-@app.route('/wordlog/<context>')
+@app.route('/wordlog/<wordlog>')
 @auth.login_required
-def wordlog (context=None):
-   return display_wordlog(context)
+def wordlog (messages=None):
+   return render_template('wordlog.html', messages = display_wordlog(wordlog))
 
 
 """
