@@ -44,7 +44,7 @@
                      <h3>{{ item['title'] }}</h3>
                      <p>Generated {{ item['date'] }}</p>
                      <p>{{ item['posts'] }} posts remaining.</p>
-                     <button>Clear</button>
+                     <a href="/clear/{{ item['title'] }}"><button>Clear</button></a>
                   </div>
                {% endfor %}
 
