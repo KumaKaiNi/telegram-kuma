@@ -1,15 +1,12 @@
 import threading, time
 
-# from core import kuma
 # from webui import flask
 
 
 def core_worker():
-   time.sleep(5)
-   print("Core worker thread started.")
-   return
+   from core import kuma
 
-def test_worker():
+def webui_worker():
    print("Test worker thread started.")
    return
 
@@ -17,4 +14,4 @@ def test_worker():
 if __name__ == '__main__':
 
    threading.Thread(target = core_worker).start()
-   threading.Thread(target = test_worker).start()
+   threading.Thread(target = webui_worker).start()
