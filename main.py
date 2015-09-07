@@ -346,12 +346,18 @@ def send_rights (m):
 
 
 # Prints available json to the console.
-@bot.message_handler(commands=['test'])
+@bot.message_handler(commands=['json'])
 def print_json (m):
    if m.from_user.username == "rekyuu":
       print(CON['log'], 'info:', m.__dict__)
       print(CON['log'], 'from_user:', m.from_user.__dict__)
       print(CON['log'], 'chat:', m.chat.__dict__)
+
+
+# Prints available json to the console.
+@bot.message_handler(commands=['test'])
+def testing_function (m):
+   get_top_posts('warshipporn')
 
 
 """
