@@ -1,4 +1,4 @@
-import auth, datetime, logging, os, praw, random, telebot, time, urllib.request
+import auth, datetime, json, logging, os, praw, random, telebot, time, urllib.request
 from colorama import init, Fore
 from markov import Markov
 from twitter import *
@@ -51,18 +51,26 @@ def word_log (m):
 
 
 # Function to populate top posts of a given subreddit
-def get_top_posts (sub, list_name, time_got):
+def get_top_posts (name):
 
-   time_got = dt.now()
-   subr = r.get_subreddit(sub)
+   if not os.path.exists('./subreddits'):
+      os.makedirs('./subreddits')
+   conf = open('./subreddits/' + name + '.json', 'w', encoding='utf8')
+
+   data = {}
+   data['time'] = str(dt.now())
+   data['posts'] = []
+
+   sub = r.get_subreddit(name)
 
    print(CON['log'], "Populating list...")
    pid = 0
-   for post in subr.get_hot(limit=25):
+   for post in sub.get_hot(limit=25):
       url = post.url.encode("utf-8")
       title = post.title.encode("utf-8")
-      list_name.append({'pid': pid, 'title': title, 'url': url})
+      data['posts'].append({'pid': pid, 'title': title, 'url': url})
       pid += 1
+   json.dump(data, conf, ensure_ascii=False)
    print(CON['log'], "List populated!")
 
 
