@@ -87,6 +87,7 @@ def send_sub_image (msg, name):
          break
       except:
          print(CON['err'], "List has not been created. Creating.")
+         get_top_posts(name)
 
    # Checks freshness of posts.
    if dt.now() - dt.strptime(data['time'], '%Y-%m-%d %H:%M:%S.%f') >= datetime.timedelta(days=1):
