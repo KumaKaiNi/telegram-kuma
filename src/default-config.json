@@ -8,6 +8,9 @@
          "access_key_secret": "",
          "consumer_key": "",
          "consumer_key_secret": ""
+      },
+      "webui": {
+         "username": "password"
       }
    }
 }
