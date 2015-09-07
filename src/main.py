@@ -245,7 +245,7 @@ def all_other_messages (m):
    # Logs incoming messages to a file
    logger.word_log(m)
 
-   # 1:20 chance of firing a markov chain message
+   # 1:50 chance of firing a markov chain message
    if helpers.prob(1,50) == True:
       file_ = open(CACHE['wordlogs'] + str(m.chat.id) + '.log', encoding='utf8')
       messages = file_.read().splitlines()
