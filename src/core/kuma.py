@@ -260,7 +260,7 @@ def all_other_messages (m):
    logger.word_log(m)
 
    # 2% chance of firing a markov chain message
-   if helpers.prob(1,50) == True:
+   if helpers.prob(1,100) == True:
       file_ = open(CACHE['wordlogs'] + str(m.chat.id) + '.log', encoding='utf8')
       messages = file_.read().splitlines()
       # Will file once the log reaches 100 lines or more
@@ -284,7 +284,7 @@ def all_other_messages (m):
    if last_msg != m.text:
       last_msg = m.text
       # 0.5% chance to tweet the last message recieved
-      if helpers.prob(1,200) == True:
+      if helpers.prob(1,100) == True:
          name = m.from_user.username
          if name is None:
             name = m.from_user.first_name
