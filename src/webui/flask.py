@@ -14,7 +14,7 @@ Authentication
 """
 
 try:
-   file_ = open('./config.json', encoding='utf8')
+   file_ = open(folders.DIR + '/config.json', encoding='utf8')
    config = json.loads(file_.read())
    users = config['auth']['webui']
 except:
