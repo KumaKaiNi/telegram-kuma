@@ -6,6 +6,7 @@ from helpers import folders, logger
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 CACHE = folders.CACHE
+DIR = folders.DIR
 CON = logger.CON
 
 
@@ -14,7 +15,8 @@ Authentication
 """
 
 try:
-   file_ = open(folders.DIR + '/config.json', encoding='utf8')
+   print(DIR)
+   file_ = open(DIR + '/config.json', encoding='utf8')
    config = json.loads(file_.read())
    users = config['auth']['webui']
    file_.close()
