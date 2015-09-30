@@ -1,4 +1,4 @@
-import json
+import json, os
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 FOLDER = DIR + '/__cache__/'
