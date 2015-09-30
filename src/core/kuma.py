@@ -3,7 +3,9 @@ from twitter import *
 from helpers import auth, folders, helpers, logger, markov, reddit
 
 CACHE = folders.CACHE
+DIR = folders.DIR
 CON = logger.CON
+DIR = folders.DIR
 
 
 """
@@ -11,7 +13,7 @@ API and auth keys. Will be located in auth.py.
 """
 
 try:
-   file_ = open('./config.json', encoding='utf8')
+   file_ = open(DIR + '/config.json', encoding='utf8')
    config = json.loads(file_.read())
    auth = config['auth']
 except:
