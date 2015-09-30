@@ -17,9 +17,9 @@ try:
    file_ = open(folders.DIR + '/config.json', encoding='utf8')
    config = json.loads(file_.read())
    users = config['auth']['webui']
+   file_.close()
 except:
    print(CON['err'], "config.json not found. Be sure to fill out default-config.json and rename it to config.json.")
-file_.close()
 
 @auth.get_password
 def get_pw (username):
