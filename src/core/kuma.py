@@ -287,13 +287,16 @@ def all_other_messages (m):
       last_msg = m.text
       # 0.5% chance to tweet the last message recieved
       if helpers.prob(1,100) == True:
-         name = m.from_user.username
-         if name is None:
-            name = m.from_user.first_name
-         out = m.text + ' *' + name
-         t.statuses.update(status=out)
-         bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
-         print(CON['twt'], out)
+         if m.text.split(':')[0] in ['http', 'https']:
+            pass
+         else:
+            name = m.from_user.username
+            if name is None:
+               name = m.from_user.first_name
+            out = m.text + ' *' + name
+            t.statuses.update(status=out)
+            bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
+            print(CON['twt'], out)
    else:
       last_msg = m.text
 
