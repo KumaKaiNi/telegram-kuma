@@ -307,7 +307,7 @@ def image_search (m):
 # Danbooru search and random responder.
 @bot.message_handler(commands=['dan', 'danbooru'])
 def danbooru_search (m):
-	nsfw = ["nude", "panties", "bra", "underwear", "pantsu", "nipples", "sex", "cum", "penis", "fellatio", "paizuri", "oral", "breasts", "vaginal", "bukkake"]
+	nsfw = ["nude", "panties", "bra", "underwear", "pantsu", "nipples", "sex", "cum", "penis", "fellatio", "paizuri", "oral", "breasts", "vaginal", "bukkake", "scat", "futanari", "yaoi", "yuri"]
 	limit = 100
 	page = 1
 
