@@ -1,4 +1,4 @@
-import json, random, telebot, time
+import json, random, telebot, time, urllib, os
 from twitter import *
 from helpers import auth, folders, helpers, logger, markov, reddit
 
@@ -49,10 +49,14 @@ def send_help (m):
 		+ "/predict - sends a prediction.\n"
 		+ "/roll x - rolls a number between 1 and x. Also takes 4d6, etc.\n"
 		+ "/say - repeats what you say.\n"
+		+ "/search - returns the first Google result.\n"
+		+ "/image - returns the first Google Images result.\n"
+		+ "/youtube - returns the first YouTube video.\n"
+		+ "/danbooru - returns a random Danbooru image by tags (ie, \"kuma (kantai collection)\").\n"
 		+ "/ship - posts an image from the top posts of r/warshipporn.\n"
 		+ "/tank - posts an image from the top posts of r/tankporn.\n"
 		+ "\n"
-		+ "Source (v1.0): https://github.com/rekyuu/telegram-kuma")
+		+ "Source (v1.1): https://github.com/rekyuu/telegram-kuma")
 
 
 # Command to let you know she's alive.
@@ -224,6 +228,153 @@ def print_json (m):
 @bot.message_handler(commands=['test'])
 def testing_function (m):
 	reddit.send_sub_image (m, 'warshipporn')
+
+
+# Responds with the first Google result
+@bot.message_handler(commands=['s', 'search', 'google', 'find'])
+def search (m):
+	query = m.text.split()
+	del query[0]
+	query = '%20'.join(query)
+
+	api = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={0}'.format(query)
+	request = urllib.request.urlopen(api)
+	response = request.read().decode('utf8')
+	results = json.loads(response)
+	out = results['responseData']['results'][0]['unescapedUrl']
+
+	bot.send_message(m.chat.id, out)
+	print(CON['msg'], out)
+
+
+# Responds with the first YouTube result (by cheating!)
+@bot.message_handler(commands=['yt', 'youtube'])
+def search (m):
+	query = m.text.split()
+	del query[0]
+	query = '%20'.join(query)
+
+	api = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=youtube%20{0}'.format(query)
+	request = urllib.request.urlopen(api)
+	response = request.read().decode('utf8')
+	results = json.loads(response)
+	out = results['responseData']['results'][0]['unescapedUrl']
+
+	bot.send_message(m.chat.id, out)
+	print(CON['msg'], out)
+
+
+# Responds with the first Google Images result
+@bot.message_handler(commands=['i', 'img', 'image', 'pic', 'picture'])
+def image_search (m):
+	query = m.text.split()
+	del query[0]
+	query = '%20'.join(query)
+
+	api = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q={0}'.format(query)
+	request = urllib.request.urlopen(api)
+	response = request.read().decode('utf8')
+	results = json.loads(response)
+	dl = results['responseData']['results'][0]['unescapedUrl']
+	via = results['responseData']['results'][0]['originalContextUrl']
+	filename = dl.split('/')[-1]
+
+	try:
+		# Downloads the image.
+		print(CON['log'], "Downloading", filename + "...")
+		if not os.path.exists(CACHE['img']):
+			os.makedirs(CACHE['img'])
+		urllib.request.urlretrieve(dl, CACHE['img'] + filename)
+
+		# Sends the downloaded image and the title.
+		photo = open(CACHE['img'] + filename, 'rb')
+		bot.send_photo(m.chat.id, photo)
+		print(CON['img'], filename)
+
+		# Closes the photo and removes it from the system.
+		photo.close()
+		os.remove(CACHE['img'] + filename)
+
+		out = 'via ' + via
+	except:
+		print(CON['err'], "Unable to download image. Sending link.")
+		out = via
+	finally:
+		bot.send_message(m.chat.id, out)
+		print(CON['msg'], out)
+
+
+# Danbooru search and random responder.
+@bot.message_handler(commands=['dan', 'danbooru'])
+def danbooru_search (m):
+	nsfw = ["nude", "panties", "bra", "underwear", "pantsu", "nipples", "sex", "cum", "penis", "fellatio", "paizuri", "oral", "breasts", "vaginal", "bukkake"]
+	limit = 100
+	page = 1
+
+	query = m.text.split()
+	del query[0]
+	query = ' '.join(query)
+	query = query.split(',')
+	tags = []
+	for tag in query:
+		tag = tag.split()
+		tag = '_'.join(tag)
+		tags.append(tag)
+	tags = ';'.join(tags)
+
+	posts = 'https://danbooru.donmai.us/posts.json?limit={0}&page={1}&tags={2}'.format(limit, page, tags)
+	request = urllib.request.urlopen(posts)
+	response = request.read().decode('utf8')
+	results = json.loads(response)
+	print(CON['log'], "JSON loaded!")
+	print(CON['log'], "Checking for a SFW image...")
+
+	while len(results) >= 1:
+		json_id = random.randint(0, len(results) - 1)
+		post = results[json_id]
+		sfw = True
+		for tag in nsfw:
+			if tag in post['tag_string'].split():
+				sfw = False
+				print(CON['err'], "NSFW! Trying again...")
+		if sfw == False:
+			del results[json_id]
+		if sfw == True:
+			break
+
+	if sfw == True:
+		dl = 'https://danbooru.donmai.us' + post['file_url']
+		via = 'https://danbooru.donmai.us/posts/' + str(post['id'])
+		filename = dl.split('/')[-1]
+
+		try:
+			# Downloads the image.
+			print(CON['log'], "Downloading", filename + "...")
+			if not os.path.exists(CACHE['img']):
+				os.makedirs(CACHE['img'])
+			urllib.request.urlretrieve(dl, CACHE['img'] + filename)
+
+			# Sends the downloaded image and the title.
+			photo = open(CACHE['img'] + filename, 'rb')
+			bot.send_photo(m.chat.id, photo)
+			print(CON['img'], filename)
+
+			# Closes the photo and removes it from the system.
+			photo.close()
+			os.remove(CACHE['img'] + filename)
+
+			out = 'via ' + via
+		except:
+			print(CON['err'], "Unable to download image. Sending link.")
+			out = via
+		finally:
+			bot.send_message(m.chat.id, out)
+			print(CON['msg'], out)
+
+	else:
+		out = "No SFW images found, sorry!"
+		bot.send_message(m.chat.id, out)
+		print(CON['msg'], out)
 
 
 """
