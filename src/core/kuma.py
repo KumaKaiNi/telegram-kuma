@@ -307,7 +307,6 @@ def image_search (m):
 # Danbooru search and random responder.
 @bot.message_handler(commands=['dan', 'danbooru'])
 def danbooru_search (m):
-	nsfw = ["nude", "panties", "bra", "underwear", "pantsu", "nipples", "sex", "cum", "penis", "fellatio", "paizuri", "oral", "breasts", "vaginal", "bukkake", "scat", "futanari", "yaoi", "yuri"]
 	limit = 100
 	page = 1
 
@@ -333,12 +332,10 @@ def danbooru_search (m):
 		json_id = random.randint(0, len(results) - 1)
 		post = results[json_id]
 		sfw = True
-		for tag in nsfw:
-			if tag in post['tag_string'].split():
-				sfw = False
-				print(CON['err'], "NSFW! Trying again...")
-		if sfw == False:
+		if post['rating'] is not 's':
+			sfw = False
 			del results[json_id]
+			print(CON['err'], "NSFW! Trying again...")
 		if sfw == True:
 			break
 
