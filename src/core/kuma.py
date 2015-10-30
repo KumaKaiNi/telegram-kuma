@@ -52,9 +52,7 @@ def send_help (m):
 		+ "/ship - posts an image from the top posts of r/warshipporn.\n"
 		+ "/tank - posts an image from the top posts of r/tankporn.\n"
 		+ "\n"
-		+ "Just as a warning, there is a 0.5% chance that I will tweet whatever bullshit you just said, kuma. https://twitter.com/KumaKaiNi\n"
-		+ "\n"
-		+ "Source: https://github.com/rekyuu/telegram-kuma")
+		+ "Source (v1.0): https://github.com/rekyuu/telegram-kuma")
 
 
 # Command to let you know she's alive.
