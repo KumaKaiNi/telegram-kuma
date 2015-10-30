@@ -280,25 +280,25 @@ def all_other_messages (m):
 			print(CON['twt'], out + ' *KumaKaiNi')
 		file_.close()
 
-    # Really simple and lazy spam protection
-    # Only for lame meme-chat
-    if m.chat == '-22706117':
-    	if last_msg != m.text:
-    		last_msg = m.text
-    		# 0.5% chance to tweet the last message recieved
-    		if helpers.prob(1,200) == True:
-    			if m.text.split(':')[0] in ['http', 'https']:
-    				pass
-    			else:
-    				name = m.from_user.username
-    				if name is None:
-    					name = m.from_user.first_name
-    				out = m.text + ' *' + name
-    				t.statuses.update(status=out)
-    				bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
-    				print(CON['twt'], out)
-    	else:
-    		last_msg = m.text
+	# Really simple and lazy spam protection
+	# Only for lame meme-chat
+	if m.chat == '-22706117':
+		if last_msg != m.text:
+			last_msg = m.text
+			# 0.5% chance to tweet the last message recieved
+			if helpers.prob(1,200) == True:
+				if m.text.split(':')[0] in ['http', 'https']:
+					pass
+				else:
+					name = m.from_user.username
+					if name is None:
+						name = m.from_user.first_name
+					out = m.text + ' *' + name
+					t.statuses.update(status=out)
+					bot.send_message(m.chat.id, "lmao I'm live tweeting this shit")
+					print(CON['twt'], out)
+		else:
+			last_msg = m.text
 
 
 """
