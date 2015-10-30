@@ -280,7 +280,7 @@ def all_other_messages (m):
 			print(CON['twt'], out + ' *KumaKaiNi')
 		file_.close()
 
-	# Really simple and lazy spam protection
+    # Really simple and lazy spam protection
     # Only for lame meme-chat
     if m.chat == '-22706117':
     	if last_msg != m.text:
