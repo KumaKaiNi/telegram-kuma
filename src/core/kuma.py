@@ -328,16 +328,21 @@ def danbooru_search (m):
 	print(CON['log'], "JSON loaded!")
 	print(CON['log'], "Checking for a SFW image...")
 
-	while len(results) >= 1:
-		json_id = random.randint(0, len(results) - 1)
-		post = results[json_id]
-		sfw = True
-		if post['rating'] is not 's':
-			sfw = False
-			del results[json_id]
-			print(CON['err'], "NSFW! Trying again...")
-		if sfw == True:
-			break
+	if len(results) == 0:
+		sfw = False
+		nothing = True
+	else:
+		nothing = False
+		while len(results) >= 1:
+			json_id = random.randint(0, len(results) - 1)
+			post = results[json_id]
+			sfw = True
+			if post['rating'] is not 's':
+				sfw = False
+				del results[json_id]
+				print(CON['err'], "NSFW! Trying again...")
+			if sfw == True:
+				break
 
 	if sfw == True:
 		dl = 'https://danbooru.donmai.us' + post['file_url']
@@ -367,6 +372,11 @@ def danbooru_search (m):
 		finally:
 			bot.send_message(m.chat.id, out)
 			print(CON['msg'], out)
+
+	elif nothing == True:
+		out = "Nothing found with that query."
+		bot.send_message(m.chat.id, out)
+		print(CON['msg'], out)
 
 	else:
 		out = "No SFW images found, sorry!"
