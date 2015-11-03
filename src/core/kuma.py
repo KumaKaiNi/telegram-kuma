@@ -304,9 +304,15 @@ def image_search (m):
 		print(CON['msg'], out)
 
 
-# Danbooru search and random responder.
+# Danbooru search and random responder (removed).
+NO = ['nope.', 'nuh-uh.', 'no way.', 'no.', 'geeeeet dunked on.', 'not on my watch.']
 @bot.message_handler(commands=['dan', 'danbooru'])
 def danbooru_search (m):
+	out = NO[random.randint(0, len(NO) - 1)]
+	bot.send_message(m.chat.id, out)
+	print(CON['msg'], out)
+
+	"""
 	limit = 100
 	page = 1
 
@@ -382,6 +388,7 @@ def danbooru_search (m):
 		out = "No SFW images found, sorry!"
 		bot.send_message(m.chat.id, out)
 		print(CON['msg'], out)
+	"""
 
 
 """
