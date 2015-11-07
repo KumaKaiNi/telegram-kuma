@@ -221,6 +221,7 @@ fight_conclusions = [
 def send_vs (m):
 	contestants = m.text.split()
 	del contestants[0]
+	contestants = ' '.join(contestants)
 	contestants = contestants.split('vs')
 
 	winner = random.choice(contestants)
