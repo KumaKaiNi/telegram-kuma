@@ -254,7 +254,7 @@ def send_vs (m):
 	contestants.remove(winner)
 	loser = contestants[0]
 
-	for i in range(3):
+	for i in range(2):
 		contestants = [winner, loser]
 		fighter0 = random.choice(contestants)
 		contestants.remove(fighter0)
