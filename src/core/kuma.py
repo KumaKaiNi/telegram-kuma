@@ -208,6 +208,45 @@ def send_diceroll (m):
 		print(CON['msg'], out)
 
 
+fights = [
+	'{} does a thing to {}.',
+	'{} also did a thing to {}!',
+	'{} throws a thing at {}!'
+]
+
+fight_conclusions = [
+	'{} makes a surprise punch at {}!'
+]
+@bot.message_handler(commands=['fight', 'battle', 'faceoff'])
+def send_vs (m):
+	contestants = m.text.split()
+	del contestants[0]
+	contestants = contestants.split('vs')
+
+	winner = random.choice(contestants)
+	contestants.remove(winner)
+	loser = contestants[0]
+
+	for line in fights:
+		contestants = [winner, loser]
+		fighter0 = random.choice(contestants)
+		contestants.remove(fighter0)
+		fighter1 = contestants[0]
+
+		out = line.format(fighter0, fighter1)
+		bot.send_message(m.chat.id, out)
+		print(CON['msg'], out)
+
+	win_line = random.choice(fight_conclusions)
+	out = win_line.format(winner, loser)
+	bot.send_message(m.chat.id, out)
+	print(CON['msg'], out)
+
+	out = '{} wins!'.format(winner)
+	bot.send_message(m.chat.id, out)
+	print(CON['msg'], out)
+
+
 # Sends a link to /r/botsrights
 @bot.message_handler(commands=['botsrights'])
 def send_rights (m):
@@ -446,8 +485,9 @@ def all_other_messages (m):
 		file_.close()
 
 	# Really simple and lazy spam protection
-	# Only for lame meme-chat
-	if m.chat == '-22706117':
+	# Only for lame meme-chat (currently completely disabled)
+	"""
+	if m.chat.id == -22706117:
 		if last_msg != m.text:
 			last_msg = m.text
 			# 0.5% chance to tweet the last message recieved
@@ -464,6 +504,7 @@ def all_other_messages (m):
 					print(CON['twt'], out)
 		else:
 			last_msg = m.text
+	"""
 
 
 """
