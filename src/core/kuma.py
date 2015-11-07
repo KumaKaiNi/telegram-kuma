@@ -227,7 +227,21 @@ fights = [
 	'{} does nothing. {} doesn\'t know how to react.',
 	'{} gets nuked by {}.',
 	'{} forgets to read {} a bedtime story.',
-	'{} makes a surprise punch at {}.'
+	'{} makes a surprise punch at {}.',
+	'{} listens to grindcore. {} is super-turned on right now.',
+	'{} and {} do nothing. Oh well.',
+	'{} pushes to MASTER. {} is to blame.',
+	'{} forks {}\'s repo.',
+	'{} doesn\'t know what else to write. {} shimmies out of the room.',
+	'{} and the rest of the crew ditch {}.',
+	'{} wants to go home but {} has the car keys.',
+	'{} slaps {} with a large trout.',
+	'{} hugs {}.',
+	'{} smacks {}.',
+	'{} wakes up next to {}, filled with regret.',
+	'{} forgets the chloroform. {} goes home.',
+	'{} sends {} to the moon. How? Fuck if I know.',
+	'{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}{0}{1}',
 ]
 @bot.message_handler(commands=['fight', 'battle', 'faceoff'])
 def send_vs (m):
