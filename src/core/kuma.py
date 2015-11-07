@@ -240,7 +240,7 @@ def send_vs (m):
 	contestants.remove(winner)
 	loser = contestants[0]
 
-	for i in range(0,2):
+	for i in range(3):
 		contestants = [winner, loser]
 		fighter0 = random.choice(contestants)
 		contestants.remove(fighter0)
