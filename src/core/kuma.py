@@ -209,13 +209,25 @@ def send_diceroll (m):
 
 
 fights = [
-	'{} does a thing to {}.',
-	'{} also did a thing to {}!',
-	'{} throws a thing at {}!'
-]
-
-fight_conclusions = [
-	'{} makes a surprise punch at {}!'
+	'{} punches {}.',
+	'{} kicks {}.',
+	'{} licks {}.',
+	'{} pets {}.',
+	'{} scratches behind {}\'s ears.',
+	'{} gives {} the bed eyes. Nothing happens.',
+	'{} attemps at programming a script to defeat {}. It doesn\'t work.',
+	'{} sends memes to {}. They\'re not very funny.',
+	'{} pulls a knife on {}.',
+	'{} unzips {}.',
+	'{} unzips dick. {} is displeased.',
+	'{} sends {} a love letter.',
+	'{} asks {} to take a hike.',
+	'{} sniffs {}.',
+	'{} cries. {} laughs mockingly.',
+	'{} does nothing. {} doesn\'t know how to react.',
+	'{} gets nuked by {}.',
+	'{} forgets to read {} a bedtime story.',
+	'{} makes a surprise punch at {}.'
 ]
 @bot.message_handler(commands=['fight', 'battle', 'faceoff'])
 def send_vs (m):
@@ -228,7 +240,7 @@ def send_vs (m):
 	contestants.remove(winner)
 	loser = contestants[0]
 
-	for line in fights:
+	for i in range(0,2):
 		contestants = [winner, loser]
 		fighter0 = random.choice(contestants)
 		contestants.remove(fighter0)
@@ -238,7 +250,7 @@ def send_vs (m):
 		bot.send_message(m.chat.id, out)
 		print(CON['msg'], out)
 
-	win_line = random.choice(fight_conclusions)
+	win_line = random.choice(fights)
 	out = win_line.format(winner, loser)
 	bot.send_message(m.chat.id, out)
 	print(CON['msg'], out)
