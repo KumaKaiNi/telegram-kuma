@@ -248,7 +248,7 @@ def send_vs (m):
 
 		fight = random.choice(fights)
 
-		out = line.format(fighter0, fighter1)
+		out = fight.format(fighter0, fighter1)
 		bot.send_message(m.chat.id, out)
 		print(CON['msg'], out)
 
