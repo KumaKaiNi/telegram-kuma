@@ -45,6 +45,7 @@ def send_help (m):
 		+ "\n"
 		+ "/add x y z - takes your numbers and adds them together.\n"
 		+ "/coin - flips a coin.\n"
+		+ "/fight user1 vs user 2 - emulates a fight.\n"
 		+ "/meme - sends a meme.\n"
 		+ "/predict - sends a prediction.\n"
 		+ "/roll x - rolls a number between 1 and x. Also takes 4d6, etc.\n"
@@ -52,11 +53,10 @@ def send_help (m):
 		+ "/search - returns the first Google result.\n"
 		+ "/image - returns the first Google Images result.\n"
 		+ "/youtube - returns the first YouTube video.\n"
-		+ "/danbooru - returns a random Danbooru image by tags (ie, \"kuma (kantai collection)\").\n"
 		+ "/ship - posts an image from the top posts of r/warshipporn.\n"
 		+ "/tank - posts an image from the top posts of r/tankporn.\n"
 		+ "\n"
-		+ "Source (v1.1): https://github.com/rekyuu/telegram-kuma")
+		+ "Source (v1.2): https://github.com/rekyuu/telegram-kuma")
 
 
 # Command to let you know she's alive.
